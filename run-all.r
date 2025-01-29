@@ -9,9 +9,14 @@ print(paths)
 
 paths$data.dir <- file.path(paths$project.dir, "data")
 paths$output.dir <- file.path(paths$project.dir, "results")
+print(paths)
 
 ## Check for and where needed install
 ## r packages required for the 
 ## remainder of the analysis
 source("install-packages.r",echo=T)
-## out: load.list()
+
+## download the raw data from TCGA
+## no packages needed
+system(paste("Rscript download-data.r", "files.csv", paths$data.dir))
+
