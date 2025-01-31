@@ -67,23 +67,4 @@ awk_command <- "
 # Execute the command
 system(awk_command)
 
-## alternative by reading into r
-## 	- remove 2nd row
-lines <- readLines(methylation.file)[-2]
-writeLines(lines, methylation.file)
-
-## - extract relevant columns
-library(data.table)
-data <- as.data.frame(fread(methylation.file, 
-			sep = "\t", 
-			header = FALSE,
-			stringsAsFactors = FALSE))
-
-# Select columns: Keep column 1, then every 4th column starting from column 2
-selected_cols <- c(1, seq(2, ncol(data), by = 4))
-fwrite(data[, selected_cols],
-	file="methylation-clean.txt",
-	sep="\t",row.names=F,col.names=F)
-
-
 

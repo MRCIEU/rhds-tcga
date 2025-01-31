@@ -30,7 +30,6 @@ source("download-pan-cancer-clinical.r",echo=T)
 ## extract the relevant tcga tar.gz files 
 ## and generate appropriately named text
 ## files for each class of data
-## requires: data.table
 source("extract-data.r",echo=T)
 ## out: 
 ##  - clinical.txt
