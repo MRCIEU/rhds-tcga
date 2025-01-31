@@ -35,3 +35,7 @@ source("extract-data.r",echo=T)
 ##  - clinical.txt
 ##  - protein.txt, protein-clean.txt
 ##  - methylation.txt, methylation-clean.txt
+
+## clean the clinical phenotyping data
+## in: clinical.txt, TCGA-CDR-SupplementalTableS1.txt
+source("clean-clinical.r",echo=t)
