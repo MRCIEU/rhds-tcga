@@ -16,7 +16,14 @@ print(paths)
 ## remainder of the analysis
 source("install-packages.r",echo=T)
 
-## download the raw data from TCGA
+## download the raw data from TCGA to the
+## data directory
 ## no packages needed
 system(paste("Rscript download-data.r", "files.csv", paths$data.dir))
+
+## download the PanCancer Atlas clinical data
+## to the data directory
+## requires: readxl
+source("download-pan-cancer-clinical.r",echo=T)
+## out: TCGA-CDR-SupplementalTableS1.txt
 
