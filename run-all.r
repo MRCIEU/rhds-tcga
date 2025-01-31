@@ -27,3 +27,12 @@ system(paste("Rscript download-data.r", "files.csv", paths$data.dir))
 source("download-pan-cancer-clinical.r",echo=T)
 ## out: TCGA-CDR-SupplementalTableS1.txt
 
+## extract the relevant tcga tar.gz files 
+## and generate appropriately named text
+## files for each class of data
+## requires: data.table
+source("extract-data.r",echo=T)
+## out: 
+##  - clinical.txt
+##  - protein.txt, protein-clean.txt
+##  - methylation.txt, methylation-clean.txt
