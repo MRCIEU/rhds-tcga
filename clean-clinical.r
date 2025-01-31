@@ -1,10 +1,7 @@
-#!/usr/bin/env Rscript
-
-args <- commandArgs(trailingOnly=TRUE)
-
-clinical.filename <- args[1]
-pan.cancer.filename <- args[2]
-output.filename <- args[3]
+clinical.filename <- file.path(paths$data.dir, "clinical.txt")
+pan.cancer.filename <- file.path(paths$data.dir,
+                        "TCGA-CDR-SupplementalTableS1.txt")
+output.filename <- file.path(paths$data.dir, "clinical-clean.txt")
 
 cat("extract-clinical.r",
     "\n ", clinical.filename,

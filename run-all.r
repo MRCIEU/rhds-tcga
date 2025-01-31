@@ -38,4 +38,5 @@ source("extract-data.r",echo=T)
 
 ## clean the clinical phenotyping data
 ## in: clinical.txt, TCGA-CDR-SupplementalTableS1.txt
-source("clean-clinical.r",echo=t)
+source("clean-clinical.r",echo=T)
+## out: clinical-clean.txt
