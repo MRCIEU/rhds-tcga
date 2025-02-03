@@ -39,15 +39,25 @@ read_chunk(file.path(path, sourcecode))
 ```{r names, results = 'hide'}
 ```
 
-# Run GlMs for association between proteins levels and tissue type (tumor vs. normal)
+## Run glms for association between proteins levels and tissue type (tumor vs. normal)
 
-```{r glms}
+```{r tissue}
 ```
 
-## visualize results
+### Visualize results
 
-```{r manhattan}
+```{r tissue.figs}
 ```
 
-```{r volcano}
+## Run glms for association between proteins levels and progression free interval (PFI)
+
+This analysis should be restricted to measurements taken from tumor samples
+
+```{r pfi}
 ```
+
+### Visualize results
+
+```{r pfi.figs}
+```
+
