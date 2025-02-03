@@ -1,5 +1,5 @@
 ## package names
-cran <- c("data.table", "readxl", "knitr", "RPMM", "remotes", "tidyverse")
+cran <- c("data.table", "readxl", "remotes", "knitr", "RPMM") # not 100% we need RPMM
 bioc <- c("IlluminaHumanMethylation450kanno.ilmn12.hg19", "impute")
 github <- c("perishky/meffonym")
 
