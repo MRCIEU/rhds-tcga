@@ -30,6 +30,7 @@ clinical <- read.table(clinical.filename,
 ## combine with participant tissue info from predicted protein dataset
 clinical <- merge(clinical, tissues, by.x = "participant")
 clinical$tumor.or.normal <- ifelse(as.numeric(clinical$tissue) < 9, "tumor", "normal")
+clinical$tumor <- sign(clinical$tumor.or.normal=="tumor")
 
 
 table(rownames(pred.proteins) %in% clinical$participant.tissue)
