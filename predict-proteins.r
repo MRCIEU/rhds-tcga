@@ -1,8 +1,6 @@
-#args <- c("hnsc-project/data/methylation-dataset")
-args = commandArgs(trailingOnly=TRUE)
-
-methylation.dir <- args[1]
-methylation.file <- file.path(methylation.dir, "methylation.txt")
+data.dir <- paths$data.dir
+output.dir <- paths$output.dir
+methylation.file <- file.path(data.dir, "methylation-clean.txt")
 
 ## Start to Process Files 
 
@@ -24,7 +22,7 @@ data <- my.read.table(methylation.file)
 	data <- as.matrix(data[, -index])
 
     ## drop rows that are completely missing
-    index.na.row <- apply(data, 1, function(i) all(!is.na(i)))
+    index.na.row <- apply(data, 1, function(i) !all(is.na(i)))
     data <- data[index.na.row, ]
 
 ## check number of rows missing per sample
@@ -36,34 +34,33 @@ data <- my.read.table(methylation.file)
 #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 #  89519   89566   89645   89790   89817   95558
 
-
 library(meffonym)
-library(tidyverse)
+## get gadd et all episcores models
+models <- subset(meffonym.models(full=T), 
+                grepl("^episcores", filename)) 
 
-models <- meffonym.models(full=T) %>%
-            filter(str_detect(filename, "^episcores"))
+# get list of proteins to estimate
+proteins <- models$name
 
-proteins <- models %>% pull(name)
-
-
+# apply protein abundance coefs to dna methylation
 predicted.proteins <- t(sapply(
         proteins,
         function(model) {
             cat(date(), model, " ")
             ret <- meffonym.score(data, model)
-            cat(" used ", length(ret$sites), "/", length(ret$vars), "sites\n")
+            cat(" used ", length(ret$sites), "/", 
+                length(ret$vars), "sites\n")
             ret$score
         }))
-
 colnames(predicted.proteins) <- colnames(data)
 
+## export results
 my.write.table <- function(x, filename) {
     cat("saving", basename(filename), "...\n")
     write.table(x, file=filename, row.names=T, col.names=T, sep="\t")
 }
-
-my.write.table(predicted.proteins, file.path(methylation.dir, "predicted-proteins.txt"))
-write_rds(predicted.proteins, file.path(methylation.dir, "predicted-proteins.rds"))
+my.write.table(predicted.proteins, 
+    file.path(output.dir, "predicted-proteins.txt"))
 
 
 

@@ -40,3 +40,11 @@ source("extract-data.r",echo=T)
 ## in: clinical.txt, TCGA-CDR-SupplementalTableS1.txt
 source("clean-clinical.r",echo=T)
 ## out: clinical-clean.txt
+
+## estimate predicted protein abundances from 
+## dna methylation data 
+## in: methylation-clean.txt
+source("predict-proteins.r",echo=T)
+## out: predicted-proteins.txt
+
+
