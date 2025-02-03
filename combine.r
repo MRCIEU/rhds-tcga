@@ -1,0 +1,47 @@
+pred.protein.filename <- file.path(paths$output.dir, "predicted-proteins.txt")
+clinical.filename <- file.path(paths$data.dir, "clinical-clean.txt")
+
+output.dir <- paths$output.dir
+
+## get helper functions for parsing tcga ids
+source("extract-participant.r")
+
+pred.proteins <- read.table(pred.protein.filename,
+                        header=T,sep="\t",stringsAsFactors=F)
+
+## extract participant tissue information 
+tissues <- data.frame(
+                participant = extract.participant(rownames(pred.proteins)),
+                tissue = extract.tissue(rownames(pred.proteins)),
+                participant.tissue = paste(extract.participant(rownames(pred.proteins)), 
+                                        extract.tissue(rownames(pred.proteins)), sep = "-")
+    )
+tissues <- subset(tissues, tissue!= "06" & tissue!="V582")
+
+## update pred.proteins to use participant.tissue rownames
+samples <- rownames(pred.proteins)
+rownames(pred.proteins) <- paste(extract.participant(samples), 
+                                    extract.tissue(samples), sep = "-")
+
+## get cleaned clinical data
+clinical <- read.table(clinical.filename,
+                        header=T,sep="\t",stringsAsFactors=F)
+
+## combine with participant tissue info from predicted protein dataset
+clinical <- merge(clinical, tissues, by.x = "participant")
+clinical$tumor.or.normal <- ifelse(as.numeric(clinical$tissue) < 9, "tumor", "normal")
+
+
+table(rownames(pred.proteins) %in% clinical$participant.tissue)
+
+## combine the clinical info with the methylation predicted protein abundances
+out <- cbind(clinical, 
+		pred.proteins[match(clinical$participant.tissue, rownames(pred.proteins)),])
+
+## export results
+my.write.table <- function(x, filename) {
+    cat("saving", basename(filename), "...\n")
+    write.table(x, file=filename, row.names=T, col.names=T, sep="\t")
+}
+my.write.table(out, 
+    file.path(output.dir, "combined-clin-pred-proteins.txt"))
