@@ -1,0 +1,43 @@
+---
+title: "TCGA Head and Neck Cancer Example analysis"
+subtitle: "DNA methytion predicted proteins and tumor vs. normal sample types"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+author: Paul Yousefi
+output:
+  html_document:
+    css: style.css
+    toc: true
+    highlight: tango
+---
+
+```{r setoptions, eval = TRUE, echo = FALSE}
+knitr::opts_chunk$set(
+comment = ">",
+error = FALSE,
+tidy = FALSE,
+echo = TRUE, 
+warning = FALSE, 
+message = FALSE,
+cache=FALSE)
+```
+
+```{r call_source, echo = F}
+path <- "."
+sourcecode <- grep("analysis.r$", 
+	list.files(path), value = T)
+read_chunk(file.path(path, sourcecode))
+```
+
+```{r globals, results = 'hide'}
+```
+
+# Load cleaned TCGA clinical and predicted protein level data
+
+```{r load.data}
+```
+
+```{r names}
+```
+
+```{r glms}
+```

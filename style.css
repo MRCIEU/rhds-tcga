@@ -1,0 +1,56 @@
+.gdbar img, img.gdbar {
+  width: 236px !important;
+  height: 69px !important;
+  margin: 8px 8px;
+}
+
+.gdbar {
+  width: 350px !important;
+  height: 85px !important;
+}
+
+slides > slide:not(.nobackground):before {
+  width: 97px;
+  height: 28px;
+  background-size: 97px 28px;
+}
+
+table,
+.table-condensed,
+table.rmdtable {
+  width: auto;
+  margin-right: auto;
+}
+table,
+.table-condensed,
+table.rmdtable,
+table.rmdtable .header th,
+.table > thead > tr > th {
+  border-collapse: collapse;
+  border-style: solid;
+  border-spacing: 0;
+  border-width: medium 0 medium 0;
+  border-color: inherit
+}
+table.rmdtable th,
+table.rmdtable td,
+table th,
+table.rmdtable tr > td:first-child,
+table.rmdtable .even {
+  padding: 0.4em 0.5em;
+  color: inherit;
+  background: #FFF;
+  font-weight: normal;
+}
+.table > tbody > tr > td {
+  border-width: 0;
+}
+
+.entry { float: left; width: 100%;}
+.left {
+  float: left;
+}
+.right {
+  float: left;
+  margin-left: 20px;
+}

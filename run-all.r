@@ -53,3 +53,13 @@ source("predict-proteins.r",echo=T)
 ## in: predicted-proteins.txt, clinical-clean.txt
 source("combine.r",echo=T)
 ## out: combined-clin-pred-proteins.txt
+
+## run analysis looking at relationship between
+## methylation predicted proteins and 
+## tumor vs. normal tissue type. 
+## render an html summary
+packages <- c("rmarkdown", "knitr")
+lapply(packages, require, character.only=T)
+
+render("analysis.rmd", 
+	output_format = "all")
