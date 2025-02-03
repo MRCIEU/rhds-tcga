@@ -47,4 +47,9 @@ source("clean-clinical.r",echo=T)
 source("predict-proteins.r",echo=T)
 ## out: predicted-proteins.txt
 
-
+## combine clinical data and methylation 
+## predicted protein abundance into one analysis
+## ready dataset  
+## in: predicted-proteins.txt, clinical-clean.txt
+source("combine.r",echo=T)
+## out: combined-clin-pred-proteins.txt
