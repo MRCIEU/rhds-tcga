@@ -59,9 +59,5 @@ my.write.table <- function(x, filename) {
     cat("saving", basename(filename), "...\n")
     write.table(x, file=filename, row.names=T, col.names=T, sep="\t")
 }
-my.write.table(predicted.proteins, 
+my.write.table(t(predicted.proteins), 
     file.path(output.dir, "predicted-proteins.txt"))
-
-
-
-
