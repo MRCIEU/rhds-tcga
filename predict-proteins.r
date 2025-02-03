@@ -43,7 +43,7 @@ models <- subset(meffonym.models(full=T),
 proteins <- models$name
 
 # apply protein abundance coefs to dna methylation
-predicted.proteins <- t(sapply(
+predicted.proteins <- sapply(
         proteins,
         function(model) {
             cat(date(), model, " ")
@@ -51,13 +51,14 @@ predicted.proteins <- t(sapply(
             cat(" used ", length(ret$sites), "/", 
                 length(ret$vars), "sites\n")
             ret$score
-        }))
-colnames(predicted.proteins) <- colnames(data)
+        })
+rownames(predicted.proteins) <- colnames(data)
+predicted.proteins <- scale(predicted.proteins)
 
 ## export results
 my.write.table <- function(x, filename) {
     cat("saving", basename(filename), "...\n")
     write.table(x, file=filename, row.names=T, col.names=T, sep="\t")
 }
-my.write.table(t(predicted.proteins), 
+my.write.table(predicted.proteins, 
     file.path(output.dir, "predicted-proteins.txt"))
