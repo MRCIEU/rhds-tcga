@@ -1,3 +1,6 @@
 # Data files
 *tar.gz
 *xslx
+
+# Config
+config.env
