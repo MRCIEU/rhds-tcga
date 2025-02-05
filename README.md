@@ -1,5 +1,27 @@
 # rhds-tcga
 
+
+## Installation
+
+We will use mamba to manage software dependencies.
+
+```
+mamba env create -f requirements.yml
+```
+
+Note - on Apple ARM processors run
+
+```
+CONDA_SUBDIR=osx-64 mamba env create -f requirements.yml
+```
+
+Following installation of the CRAN and Bioconductor packages you will have to install the `meffonym` package from GitHub:
+
+```r
+remotes::install_github("perishky/meffonym")
+```
+
+
 ## run-all.r
 
 The `run-all.r` script coordinates all analysis in this repo. It can
