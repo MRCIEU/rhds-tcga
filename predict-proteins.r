@@ -34,6 +34,7 @@ data <- my.read.table(methylation.file)
 #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 #  89519   89566   89645   89790   89817   95558
 
+library("IlluminaHumanMethylation450kanno.ilmn12.hg19")
 library(meffonym)
 ## get gadd et all episcores models
 models <- subset(meffonym.models(full=T), 
