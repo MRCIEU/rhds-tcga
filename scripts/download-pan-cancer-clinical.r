@@ -1,6 +1,3 @@
-#!/bin
-
-
 library(readxl)
 library(here)
 readRenviron(here("config.env"))
