@@ -15,8 +15,14 @@ The results directory is for intermediate steps and final results. All files in 
 
 ## Run analysis
 
-To run the analysis you need R installed. This will run everything:
+To run the analysis you need R installed:
+
+```R
+renv::restore()
+```
+
+Then you can run the analysis with:
 
 ```bash
-Rscript run-all.r
+snakemake
 ```
