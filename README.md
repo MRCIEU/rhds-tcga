@@ -29,8 +29,8 @@ docker build -t rhds-tcga .
 
 ## Run analysis
 
-Then you can run the analysis with:
+This will run everything:
 
 ```bash
-snakemake
+Rscript run-all.r
 ```
