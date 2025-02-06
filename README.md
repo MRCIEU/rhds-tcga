@@ -15,7 +15,7 @@ The results directory is for intermediate steps and final results. All files in 
 
 ## Run analysis
 
-To run the analysis you need R installed:
+To run the analysis you need R packages installed:
 
 ```R
 renv::restore()
