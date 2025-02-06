@@ -13,13 +13,21 @@ The data directory is for raw downloaded data that ideally you won't modify.
 
 The results directory is for intermediate steps and final results. All files in the results directory should be reproducible.
 
-## Run analysis
+## Setup
 
 To run the analysis you need R packages installed:
 
 ```R
 renv::restore()
 ```
+
+Alternatively run the analysis from within a container. e.g. with Docker:
+
+```bash
+docker build -t rhds-tcga .
+```
+
+## Run analysis
 
 Then you can run the analysis with:
 
