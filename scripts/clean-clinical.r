@@ -1,7 +1,13 @@
-clinical.filename <- file.path(paths$data.dir, "clinical.txt")
-pan.cancer.filename <- file.path(paths$data.dir,
+library(here)
+readRenviron(here("config.env"))
+
+datadir <- Sys.getenv("datadir")
+resultsdir <- Sys.getenv("resultsdir")
+
+clinical.filename <- file.path(datadir, "clinical.txt")
+pan.cancer.filename <- file.path(datadir,
                         "TCGA-CDR-SupplementalTableS1.txt")
-output.filename <- file.path(paths$data.dir, "clinical-clean.txt")
+output.filename <- file.path(datadir, "clinical-clean.txt")
 
 cat("extract-clinical.r",
     "\n ", clinical.filename,
