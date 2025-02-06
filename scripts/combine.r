@@ -1,7 +1,10 @@
-pred.protein.filename <- file.path(paths$output.dir, "predicted-proteins.txt")
-clinical.filename <- file.path(paths$data.dir, "clinical-clean.txt")
+readRenviron(here("config.env"))
 
-output.dir <- paths$output.dir
+datadir <- Sys.getenv("datadir")
+resultsdir <- Sys.getenv("resultsdir")
+
+pred.protein.filename <- file.path(resultsdir, "predicted-proteins.txt")
+clinical.filename <- file.path(datadir, "clinical-clean.txt")
 
 ## get helper functions for parsing tcga ids
 source("extract-participant.r")
@@ -45,4 +48,4 @@ my.write.table <- function(x, filename) {
     write.table(x, file=filename, row.names=T, col.names=T, sep="\t")
 }
 my.write.table(out, 
-    file.path(output.dir, "combined-clin-pred-proteins.txt"))
+    file.path(resultsdir, "combined-clin-pred-proteins.txt"))
