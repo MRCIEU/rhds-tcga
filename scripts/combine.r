@@ -1,3 +1,4 @@
+library(here)
 readRenviron(here("config.env"))
 
 datadir <- Sys.getenv("datadir")
