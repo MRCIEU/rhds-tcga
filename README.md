@@ -20,3 +20,9 @@ To run the analysis you need R packages installed:
 ```R
 renv::restore()
 ```
+
+This will run everything:
+
+```bash
+Rscript run-all.r
+```
