@@ -1,6 +1,10 @@
-data.dir <- paths$data.dir
-output.dir <- paths$output.dir
-methylation.file <- file.path(data.dir, "methylation-clean.txt")
+library(here)
+readRenviron(here("config.env"))
+
+datadir <- Sys.getenv("datadir")
+resultsdir <- Sys.getenv("resultsdir")
+
+methylation.file <- file.path(datadir, "methylation-clean.txt")
 
 ## Start to Process Files 
 
@@ -63,4 +67,4 @@ my.write.table <- function(x, filename) {
     write.table(x, file=filename, row.names=T, col.names=T, sep="\t")
 }
 my.write.table(pred.proteins, 
-    file.path(output.dir, "predicted-proteins.txt"))
+    file.path(resultsdir, "predicted-proteins.txt"))
