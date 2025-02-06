@@ -11,13 +11,14 @@ output:
 
 ```{r setoptions, eval = TRUE, echo = FALSE}
 knitr::opts_chunk$set(
-comment = ">",
-error = FALSE,
-tidy = FALSE,
-echo = TRUE, 
-warning = FALSE, 
-message = FALSE,
-cache=FALSE)
+  comment = ">",
+  error = FALSE,
+  tidy = FALSE,
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  cache = FALSE
+)
 ```
 
 ```{r call_source, echo = F}
@@ -28,8 +29,10 @@ datadir <- Sys.getenv("datadir")
 resultsdir <- Sys.getenv("resultsdir")
 
 path <- here("scripts")
-sourcecode <- grep("analysis.r$", 
-	list.files(path), value = T)
+sourcecode <- grep("analysis.r$",
+  list.files(path),
+  value = T
+)
 read_chunk(file.path(path, sourcecode))
 ```
 
