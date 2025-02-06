@@ -41,5 +41,3 @@ RUN R -e 'options( \
           R.version["arch"], \
           R.version["os"]))); \
     renv::restore(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))'
-
-COPY . .
