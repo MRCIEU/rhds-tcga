@@ -4,7 +4,8 @@ set -e
 
 source config.env
 
-mkdir -p $datadir/tcga
+mkdir -p $datadir
+mkdir -p $resultsdir
 
 url="https://gdac.broadinstitute.org/runs/stddata__2016_01_28/data/HNSC/20160128"
 
@@ -14,17 +15,19 @@ url="https://gdac.broadinstitute.org/runs/stddata__2016_01_28/data/HNSC/20160128
     read
     while IFS=, read -r filename date time size
     do
-        echo "Downloading $filename from $url"
-        curl -s -L $url/$filename -o $datadir/tcga/$filename
+        if [ ! -f $datadir/$filename ]; then
+            echo "Downloading $filename from $url"
+            curl -L $url/$filename -o $datadir/$filename
 
-        echo "Downloading $filename.md5 from $url"
-        curl -s -L $url/${filename}.md5 -o $datadir/tcga/${filename}.md5
+            echo "Downloading $filename.md5 from $url"
+            curl -L $url/${filename}.md5 -o $datadir/${filename}.md5
+        fi
     done
-} < files.csv
+} < scripts/files.csv
 
 # Navigate to the data directory
 workdir=$(pwd)
-cd $datadir/tcga
+cd $datadir
 
 # Check md5sums
 {
@@ -33,7 +36,7 @@ cd $datadir/tcga
     do
         md5sum -c ${filename}.md5
     done
-} < $workdir/files.csv
+} < $workdir/scripts/files.csv > ${resultsdir}/md5sums.txt
 
 # Navigate back to the original directory
 cd $workdir
