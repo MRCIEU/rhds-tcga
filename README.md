@@ -1,5 +1,6 @@
 # Prediction of cancer progression from imputed proteomics
 
+
 ## Setup
 
 Create a `config.env` file based on `config-template.env` that will have the following variables:
@@ -13,7 +14,8 @@ The data directory is for raw downloaded data that ideally you won't modify.
 
 The results directory is for intermediate steps and final results. All files in the results directory should be reproducible.
 
-## Setup
+
+## Installation
 
 To run the analysis you need R packages installed:
 
@@ -27,18 +29,17 @@ Alternatively run the analysis from within a container. e.g. with Docker:
 docker build -t rhds-tcga .
 ```
 
-## Run analysis
+## Pipeline
 
-Then you can run the analysis with:
+### Complete pipeline
+
+The entire analysis including data download can be run with
 
 ```bash
 snakemake
 ```
 
-
-
-
-## TCGA pipeline steps
+Individual steps are described below.
 
 ### Downloading and preparing the dataset
 
@@ -127,11 +128,11 @@ Rscript scripts/combine.r
 
 ### Example analysis 
 
-There are two example analyses performed in `analysis.rmd` and 
+There are two example analyses performed in `analysis.qmd` and 
 summarized in the `analysis.html` report.
 
 ```
-quarto render analysis.qmd
+quarto render scripts/analysis.qmd
 ```
 
 1. The methylation dataset has observations performed on both tumor and 
@@ -140,4 +141,4 @@ DNA methylation predicted protein abundances and tissue type (tumor vs. normal)
 
 2. Progression free interval (PFI) is a measure of cancer progression. This
 analysis restricts to DNA methylation predicted protein abundances from tumor
-cells and looks at association with PFI. 
+cells and looks at association with PFI.
