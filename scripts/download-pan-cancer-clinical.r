@@ -22,8 +22,9 @@ if (!file.exists(file.path(datadir, filename))) {
 
 # save a tab-seperated vesion
 dat <- read_xlsx(file.path(datadir, filename), sheet = 1)
+dir.create(resultsdir, showWarnings = F, recursive = T)
 write.table(
   dat,
-  file = file.path(datadir, sub("xlsx$", "txt", filename)),
+  file = file.path(resultsdir, sub("xlsx$", "txt", filename)),
   sep = "\t", row.names = F, col.names = T
 )
