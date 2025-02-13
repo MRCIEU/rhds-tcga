@@ -25,7 +25,7 @@ extract.file <- function(tar.file, extract.file, new.file) {
 
 #######################
 ## extract the clinical data
-clinical.file <- file.path(datadir, "clinical.txt")
+clinical.file <- file.path(resultsdir, "clinical.txt")
 if (!file.exists(clinical.file)) {
   extract.file(
     tar.file =
@@ -44,7 +44,7 @@ if (!file.exists(clinical.file)) {
 
 ########################
 ## extract the protein data
-protein.file <- file.path(datadir, "protein.txt")
+protein.file <- file.path(resultsdir, "protein.txt")
 if (!file.exists(protein.file)) {
   extract.file(
     tar.file =
@@ -67,7 +67,7 @@ writeLines(lines, file.path(resultsdir, "protein-clean.txt"))
 
 ########################
 ## extract the methylation data
-methylation.file <- file.path(datadir, "methylation.txt")
+methylation.file <- file.path(resultsdir, "methylation.txt")
 if (!file.exists(methylation.file)) {
   extract.file(
     tar.file =

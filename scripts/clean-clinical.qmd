@@ -11,7 +11,7 @@ readRenviron(here("config.env"))
 datadir <- Sys.getenv("datadir")
 resultsdir <- Sys.getenv("resultsdir")
 
-clinical.filename <- file.path(datadir, "clinical.txt")
+clinical.filename <- file.path(resultsdir, "clinical.txt")
 pan.cancer.filename <- file.path(
   resultsdir,
   "TCGA-CDR-SupplementalTableS1.txt"

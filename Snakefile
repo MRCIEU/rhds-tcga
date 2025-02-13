@@ -8,63 +8,93 @@ resultsdir = config['resultsdir']
 
 rule all:
     input:
-        "data/clinical-clean.html",
+        f"{resultsdir}/md5sums.txt",
+        "docs/clean-clinical.html",
         "docs/analysis.html"
 
 rule download_data:
+    "Download the omic data"
     input:
         "scripts/files.csv"
     output:
-        expand(f"{resultsdir}/md5checks.txt", resultsdir=resultsdir)
+        f"{resultsdir}/md5sums.txt"
+    log:
+        f"{resultsdir}/logs/download-data.log"
     shell:
         "source scripts/download-data.sh"
 
 rule download_pan_cancer_clinical:
+    "Download the pan-cancer clinical data"
     output:
-        f"{datadir}/TCGA-CDR-SupplementalTableS1.txt"
+        f"{resultsdir}/TCGA-CDR-SupplementalTableS1.txt"
+    log:
+        f"{resultsdir}/logs/download-pan-cancer-clinical.log"
     shell:
         "Rscript scripts/download-pan-cancer-clinical.r"
 
 rule extract_data:
+    "Extract downloaded data and clean"
     input:
-        expand(f"{resultsdir}/md5checks.txt", resultsdir=resultsdir)
+        expand(f"{resultsdir}/md5sums.txt", resultsdir=resultsdir)
     output:
-        f"{datadir}/clinical.txt",
-        f"{datadir}/protein.txt",
-        f"{datadir}/methylation.txt"
+        f"{resultsdir}/clinical.txt",
+        f"{resultsdir}/protein-clean.txt",
+        f"{resultsdir}/methylation-clean.txt"
+    log:
+        f"{resultsdir}/logs/extract-data.log"
     shell:
         "Rscript scripts/extract-data.r"
 
 rule clean_clinical:
+    "Clean clinical data"
     input:
-        f"{datadir}/clinical.txt",
-        f"{datadir}/TCGA-CDR-SupplementalTableS1.txt"
+        f"{resultsdir}/clinical.txt",
+        f"{resultsdir}/TCGA-CDR-SupplementalTableS1.txt"
     output:
-        "data/clinical-clean.html"
+        "docs/clean-clinical.html"
+    log:
+        f"{resultsdir}/logs/clean-clinical.log"
     shell:
-        "R -e 'rmarkdown::render(\"docs/clean-clinical.rmd\", output_file=\"docs/clinical-clean.html\")'"
+        "quarto render scripts/clean-clinical.qmd --output-dir ../docs"
 
 rule predict_proteins:
+    "Predict proteins from methylation data"
     input:
-        f"{datadir}/methylation-clean.txt"
+        f"{resultsdir}/methylation-clean.txt"
     output:
         f"{resultsdir}/predicted-proteins.txt"
+    log:
+        f"{resultsdir}/logs/predict-proteins.log"
     shell:
         "Rscript scripts/predict-proteins.r"
 
 rule combine_data:
+    "Combine clinical and predicted protein data"
     input:
-        f"{datadir}/clinical-clean.txt",
+        f"{resultsdir}/clinical-clean.txt",
         f"{resultsdir}/predicted-proteins.txt"
     output:
         f"{resultsdir}/combined-clin-pred-proteins.txt"
+    log:
+        f"{resultsdir}/logs/combine-data.log"
     shell:
         "Rscript scripts/combine.r"
 
 rule analysis:
+    "Analyze combined clinical and predicted protein data"
     input:
         f"{resultsdir}/combined-clin-pred-proteins.txt"
     output:
         "docs/analysis.html"
+    log:
+        f"{resultsdir}/logs/analysis.log"
     shell:
-        "R -e 'rmarkdown::render(\"docs/analysis.rmd\", output_file=\"docs/analysis.html\")'"
+        "quarto render scripts/analysis.qmd --output-dir ../docs"
+
+
+rule clean:
+    "Clean up results directory"
+    shell:
+        """
+        rm {resultsdir}/*
+        """

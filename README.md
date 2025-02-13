@@ -103,7 +103,7 @@ Rscript scripts/extract-data.r
 Final clinical phenotype cleaning is also performed
 
 ```
-quarto render scripts/clean-clinical.qmd
+quarto render scripts/clean-clinical.qmd --output-dir docs
 ```
 
 ### DNA methylation predicted protein abundances
@@ -128,11 +128,11 @@ Rscript scripts/combine.r
 
 ### Example analysis 
 
-There are two example analyses performed in `analysis.qmd` and 
-summarized in the `analysis.html` report.
+There are two example analyses performed in `scripts/analysis.qmd` and 
+summarized in the `docs/analysis.html` report.
 
 ```
-quarto render scripts/analysis.qmd
+quarto render scripts/analysis.qmd --output-dir docs
 ```
 
 1. The methylation dataset has observations performed on both tumor and 
