@@ -13,10 +13,10 @@ resultsdir <- Sys.getenv("resultsdir")
 
 clinical.filename <- file.path(datadir, "clinical.txt")
 pan.cancer.filename <- file.path(
-  datadir,
+  resultsdir,
   "TCGA-CDR-SupplementalTableS1.txt"
 )
-output.filename <- file.path(datadir, "clinical-clean.txt")
+output.filename <- file.path(resultsdir, "clinical-clean.txt")
 
 cat(
   "extract-clinical.r",
