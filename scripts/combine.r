@@ -5,10 +5,10 @@ datadir <- Sys.getenv("datadir")
 resultsdir <- Sys.getenv("resultsdir")
 
 pred.protein.filename <- file.path(resultsdir, "predicted-proteins.txt")
-clinical.filename <- file.path(datadir, "clinical-clean.txt")
+clinical.filename <- file.path(resultsdir, "clinical-clean.txt")
 
 ## get helper functions for parsing tcga ids
-source("extract-participant.r")
+source(here("scripts", "extract-participant.r"))
 
 pred.proteins <- read.table(pred.protein.filename,
   header = T, sep = "\t", stringsAsFactors = F

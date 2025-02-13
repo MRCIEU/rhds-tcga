@@ -25,7 +25,7 @@ extract.file <- function(tar.file, extract.file, new.file) {
 
 #######################
 ## extract the clinical data
-clinical.file <- file.path(datadir, "clinical.txt")
+clinical.file <- file.path(resultsdir, "clinical.txt")
 if (!file.exists(clinical.file)) {
   extract.file(
     tar.file =
@@ -44,7 +44,7 @@ if (!file.exists(clinical.file)) {
 
 ########################
 ## extract the protein data
-protein.file <- file.path(datadir, "protein.txt")
+protein.file <- file.path(resultsdir, "protein.txt")
 if (!file.exists(protein.file)) {
   extract.file(
     tar.file =
@@ -62,12 +62,12 @@ if (!file.exists(protein.file)) {
 ## clean protein output:
 ## 	- remove 2nd row
 lines <- readLines(protein.file)[-2]
-writeLines(lines, file.path(datadir, "protein-clean.txt"))
+writeLines(lines, file.path(resultsdir, "protein-clean.txt"))
 
 
 ########################
 ## extract the methylation data
-methylation.file <- file.path(datadir, "methylation.txt")
+methylation.file <- file.path(resultsdir, "methylation.txt")
 if (!file.exists(methylation.file)) {
   extract.file(
     tar.file =
@@ -83,16 +83,6 @@ if (!file.exists(methylation.file)) {
   )
 }
 ## clean methylation output:
-awk_command <- "
-	awk -F'\t' '{
-	printf \"%s\t\", $1;
-	for(i = 2; i <= NF; i += 4) {
-		printf \"%s\t\", $i;
-	}
-	print \"\"
-	}' methylation.txt | sed 2d  > methylation-clean.txt
-	"
-
 awk_command <-
   paste(
     "awk -F'\t' '{
@@ -104,7 +94,7 @@ awk_command <-
 		}'",
     methylation.file,
     "| sed 2d  >",
-    file.path(datadir, "methylation-clean.txt")
+    file.path(resultsdir, "methylation-clean.txt")
   )
 
 # Execute the command
