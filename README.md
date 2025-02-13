@@ -17,10 +17,9 @@ The results directory is for intermediate steps and final results. All files in 
 
 ## Installation
 
-To run the analysis you need R packages installed using the [`renv`](https://rstudio.github.io/renv/articles/renv.html) package manager:
+To run the analysis you need R packages installed:
 
 ```R
-install.packages("renv")
 renv::restore()
 ```
 
