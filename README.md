@@ -31,14 +31,6 @@ docker build -t rhds-tcga .
 
 ## Pipeline
 
-### Complete pipeline
-
-The entire analysis including data download can be run with
-
-```bash
-docker build -t rhds-tcga .
-```
-
 Individual steps are described below.
 
 ### Downloading and preparing the dataset
