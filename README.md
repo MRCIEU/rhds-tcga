@@ -5,7 +5,6 @@
 To run the analysis you need R packages installed:
 
 ```r
-install.packages("here")
 install.packages("readxl")
 ```
 
@@ -22,21 +21,11 @@ Compiled a list of files to download from the GDAC website:
 http://gdac.broadinstitute.org/runs/stddata__2016_01_28/data/HNSC/20160128
 See `files.csv` in this directory.
 
-The pipeline assumes a typical rdsf directory structure, with this repo
-cloned under scripts:
-
-```
-├── data
-├── results
-└── scripts
-    └── rhds-tcga
-```
-
-Data files will be downloaded to the `data` directory by using the 
+Data files will be downloaded by using the 
 below command:
 
 ```
-bash scripts/download-data.sh
+bash download-data.sh
 ```
 
 ### Downloading PanCancer Atlas clinical info
@@ -59,5 +48,5 @@ The table is downloaded to the `data` directory
 using the following script.
 
 ```
-Rscript scripts/download-pan-cancer-clinical.r
+Rscript download-pan-cancer-clinical.r
 ```
