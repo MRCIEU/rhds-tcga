@@ -39,8 +39,6 @@ The entire analysis including data download can be run with
 docker build -t rhds-tcga .
 ```
 
-## Run analysis
-
 Individual steps are described below.
 
 ### Downloading and preparing the dataset
