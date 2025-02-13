@@ -14,12 +14,8 @@ The data directory is for raw downloaded data that ideally you won't modify.
 
 The results directory is for intermediate steps and final results. All files in the results directory should be reproducible.
 
-<<<<<<< HEAD
-## Setup
-=======
 
 ## Installation
->>>>>>> t8
 
 To run the analysis you need R packages installed using the [`renv`](https://rstudio.github.io/renv/articles/renv.html) package manager:
 
@@ -29,8 +25,6 @@ renv::restore()
 ```
 
 Alternatively run the analysis from within a container. e.g. with Docker:
-<<<<<<< HEAD
-=======
 
 ```bash
 docker build -t rhds-tcga .
@@ -41,19 +35,12 @@ docker build -t rhds-tcga .
 ### Complete pipeline
 
 The entire analysis including data download can be run with
->>>>>>> t8
 
 ```bash
 docker build -t rhds-tcga .
 ```
 
 ## Run analysis
-
-This will run everything:
-
-```bash
-Rscript run-all.r
-```
 
 Individual steps are described below.
 
