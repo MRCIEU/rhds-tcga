@@ -10,27 +10,13 @@ clinical.filename <- file.path(resultsdir, "clinical-clean.txt")
 ## get helper functions for parsing tcga ids
 source(here("scripts", "extract-participant.r"))
 
-pred.proteins <- read.table(pred.protein.filename,
-  header = T, sep = "\t", stringsAsFactors = F
-)
+pred.proteins<-read.table(pred.protein.filename,header=T,sep="\t",stringsAsFactors=F)
 
-## extract participant tissue information
-tissues <- data.frame(
-  participant = extract.participant(rownames(pred.proteins)),
-  tissue = extract.tissue(rownames(pred.proteins)),
-  participant.tissue = paste(extract.participant(rownames(pred.proteins)),
-    extract.tissue(rownames(pred.proteins)),
-    sep = "-"
-  )
-)
-tissues <- subset(tissues, tissue != "06" & tissue != "V582")
+tissues<-data.frame(participant=extract.participant(rownames(pred.proteins)),tissue=extract.tissue(rownames(pred.proteins)),participant.tissue=paste(extract.participant(rownames(pred.proteins)),extract.tissue(rownames(pred.proteins)),sep="-"))
+tissues<-subset(tissues,tissue!="06"&tissue!="V582")
 
-## update pred.proteins to use participant.tissue rownames
-samples <- rownames(pred.proteins)
-rownames(pred.proteins) <- paste(extract.participant(samples),
-  extract.tissue(samples),
-  sep = "-"
-)
+samples<-rownames(pred.proteins)
+rownames(pred.proteins)<-paste(extract.participant(samples),extract.tissue(samples),sep="-")
 
 ## get cleaned clinical data
 clinical <- read.table(clinical.filename,
