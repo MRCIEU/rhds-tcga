@@ -1,0 +1,7 @@
+paths:
+    data: &pathdata '/tmp/rhds-tcga/data'
+    results: &pathresults '/tmp/rhds-tcga/results'
+    docs: &pathdocs '/tmp/rhds-tcga/docs'
+
+use-apptainer: True
+apptainer-args: '-B *pathdata -B *pathresults -B *pathdocs'

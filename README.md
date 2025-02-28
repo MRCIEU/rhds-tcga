@@ -23,20 +23,30 @@ To run the analysis you need R packages installed:
 renv::restore()
 ```
 
-Alternatively run the analysis from within a container. e.g. with Docker:
+Alternatively, run the analysis from within a container, e.g. with Apptainer. 
+Create an Apptainer image as follows:
 
 ```bash
-docker build -t rhds-tcga .
+IMAGE=rhds-tcga-r
+docker build -t $IMAGE -f Dockerfile .
+docker save $IMAGE -o $IMAGE.tar
+apptainer build $IMAGE.sif docker-archive://$IMAGE.tar
 ```
 
 ## Pipeline
 
 ### Complete pipeline
 
-The entire analysis including data download can be run with
+The entire analysis can be run with or without containers:
 
 ```bash
-snakemake
+## no containers
+snakemake --configfile=config/default.yml
+```
+
+```bash
+## use containers
+snakemake --configfile=config/apptainer.yml
 ```
 
 Individual steps are described below.

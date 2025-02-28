@@ -14,11 +14,8 @@ output:
 ```{r globals, results = 'hide'}
 library(ggplot2)
 library(ggrepel)
-library(here)
-readRenviron(here("config.env"))
 
-datadir <- Sys.getenv("datadir")
-resultsdir <- Sys.getenv("resultsdir")
+resultsdir <- params$resultsdir
 ```
 
 ```{r load.data}
