@@ -13,6 +13,6 @@ rule clean_clinical:
     shell:
         """
         quarto render scripts/clean-clinical.qmd \
-            -P resultsdir:{resultsdir} \
-            --output-dir {docsdir}
+            -P resultsdir:"{resultsdir}"
+        mv scripts/clean-clinical.html scripts/clean-clinical_files {docsdir}
         """

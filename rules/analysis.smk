@@ -11,6 +11,6 @@ rule analysis:
     shell:
         """
         quarto render scripts/analysis.qmd \
-            -P resultsdir:{resultsdir} \
-            --output-dir {docsdir}
+            -P resultsdir:"{resultsdir}"
+        mv scripts/analysis.html scripts/analysis_files {docsdir}
         """

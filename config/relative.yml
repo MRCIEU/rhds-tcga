@@ -1,0 +1,9 @@
+paths:
+    data: &pathdata 'rhds-tcga-files/data'
+    results: &pathresults 'rhds-tcga-files/results'
+    docs: &pathdocs 'rhds-tcga-files/docs'
+
+use-apptainer: True
+apptainer-args: "-B *pathdata -B *pathresults -B *pathdocs"
+
+

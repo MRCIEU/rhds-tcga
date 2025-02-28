@@ -1,55 +1,108 @@
 # Prediction of cancer progression from imputed proteomics
 
-
 ## Setup
 
-Create a `config.env` file based on `config-template.env` that will have the following variables:
+Create a `config/settings.yml` file based on `config/template.yml` that
+will at least have the following variables:
 
 ```
-datadir=/path/to/data
-resultsdir=/path/to/results
+paths:
+    data: '/PATH/TO/DATA/DIR'
+    results: '/PATH/TO/RESULTS/DIR'
+    docs: '/PATH/TO/DOCS/DIR'
 ```
 
 The data directory is for raw downloaded data that ideally you won't modify.
 
-The results directory is for intermediate steps and final results. All files in the results directory should be reproducible.
+The results directory is for intermediate steps and final results.
 
+The docs directory is for reports describing results. 
+
+Example config files can be found in `config/`
+for a mamba-based installation ([config/mamba.yml](config/mamba.yml)
+and for a container-based installation ([config/apptainer.yml](config/apptainer.yml)).
+
+All files in the results and docs directories should be reproducible.
 
 ## Installation
 
-To run the analysis you need R packages installed:
+### Install mamba
+
+Ensure that [mamba](readme-mamba.md) is installed.
+
+### Install snakemake
+
+Create a mamba environment for the pipeline.
+
+```
+mamba create --name "rhds-tcga" python=3.12.8
+mamba activate rhds-tcga
+```
+
+Install snakemake.
+
+```
+pip3 install snakemake==8.28.0
+```
+
+### Install pipeline dependencies: mamba option
+
+If it is not already installed, R can be installed using mamba:
+
+```
+mamba install conda-forge::r-base=4.4.2
+```
+
+Start R and install R packages using the
+renv lock file [renv.lock](renv.lock).
 
 ```R
 renv::restore()
 ```
 
-Alternatively, run the analysis from within a container, e.g. with Apptainer. 
-Create an Apptainer image as follows:
+For reference, the lock file was created using
+[these steps](readme-renv.md).
+
+### Install pipeline dependencies: container option
+
+Alternatively, the analyses can be run from within a container,
+e.g. using Apptainer. 
+Create an apptainer image as follows:
 
 ```bash
 IMAGE=rhds-tcga-r
-docker build -t $IMAGE -f Dockerfile .
-docker save $IMAGE -o $IMAGE.tar
+sudo docker build -t $IMAGE -f Dockerfile .
+sudo docker save $IMAGE -o $IMAGE.tar
+sudo chown $USER ${IMAGE}.tar
+
 apptainer build $IMAGE.sif docker-archive://$IMAGE.tar
 ```
 
-## Pipeline
 
-### Complete pipeline
+### Install pipeline dependencies: cluster option
 
-The entire analysis can be run with or without containers:
+<mark>TO BE COMPLETED</mark>
 
-```bash
-## no containers
-snakemake --configfile=config/default.yml
+```
+module load languages/python/3.12.3
+module load apptainer/1.1.9 ## or 1.3.1
+pip3 install snakemake==8.28.0
+...
 ```
 
+
+## Running the pipeline
+
+Run the pipeline using Snakemake replacing the configuration
+file with the config file created for your installation.
+
 ```bash
-## use containers
-snakemake --configfile=config/apptainer.yml
+snakemake --configfile=config/mamba.yml all
 ```
 
-Individual steps are described below.
+## Pipeline description
+
+Individual steps in the pipeline are described below.
 
 ### Downloading and preparing the dataset
 

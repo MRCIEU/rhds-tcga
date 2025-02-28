@@ -1,13 +1,17 @@
 ---
+
 title: Clean clinical data
+
+params:
+  resultsdir: ""
+
 ---
 
 To do..
 
+
 ```{r}
-
 resultsdir <- params$resultsdir
-
 clinical.filename <- file.path(resultsdir, "clinical.txt")
 pan.cancer.filename <- file.path(
   resultsdir,
