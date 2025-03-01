@@ -1,6 +1,15 @@
 FROM rocker/r-ver:4.4.2
 
-## create working directory for the project
+RUN apt-get update
+RUN apt-get install -y curl gdebi
+
+## install quarto
+ARG QUARTO_VERSION="1.6.42"
+ARG QUARTO_URL="https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb"
+RUN curl -o quarto-linux-amd64.deb -L ${QUARTO_URL}
+RUN gdebi --non-interactive quarto-linux-amd64.deb
+
+## create working directory for the pipeline
 RUN mkdir -p /project
 WORKDIR /project
 
@@ -17,7 +26,3 @@ COPY renv.lock renv.lock
 RUN R -e "install.packages('renv', repos = c(CRAN = 'https://cloud.r-project.org'))"
 RUN R -e "renv::restore()"
 
-## install quarto
-ARG QUARTO_VERSION="1.6.42"
-RUN curl -o quarto-linux-amd64.deb -L https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb
-RUN gdebi --non-interactive quarto-linux-amd64.deb
