@@ -1,4 +1,0 @@
-paths:
-    data: '/PATH/TO/DATA/DIR'
-    results: '/PATH/TO/RESULTS/DIR'
-    docs: '/PATH/TO/DOCS/DIR'

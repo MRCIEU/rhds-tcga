@@ -10,7 +10,5 @@ rule predict_proteins:
         f"{resultsdir}/logs/predict-proteins.log"
     shell:
         """
-        echo $(pwd)
-        echo $(ls)
         Rscript scripts/predict-proteins.r {resultsdir}
         """
