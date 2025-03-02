@@ -7,4 +7,6 @@ rule download_pan_cancer_clinical:
     log:
         f"{resultsdir}/logs/download-pan-cancer-clinical.log"
     shell:
-        "Rscript scripts/download-pan-cancer-clinical.r {datadir} {resultsdir}"
+        """
+        Rscript scripts/download-pan-cancer-clinical.r {datadir} {resultsdir}
+        """

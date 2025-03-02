@@ -9,4 +9,8 @@ rule predict_proteins:
     log:
         f"{resultsdir}/logs/predict-proteins.log"
     shell:
-        "Rscript scripts/predict-proteins.r {resultsdir}"
+        """
+        echo $(pwd)
+        echo $(ls)
+        Rscript scripts/predict-proteins.r {resultsdir}
+        """

@@ -9,9 +9,8 @@ ARG QUARTO_URL="https://github.com/quarto-dev/quarto-cli/releases/download/v${QU
 RUN curl -o quarto-linux-amd64.deb -L ${QUARTO_URL}
 RUN gdebi --non-interactive quarto-linux-amd64.deb
 
-## create working directory for the pipeline
-RUN mkdir -p /project
-WORKDIR /project
+## set working directory for the pipeline
+WORKDIR /home
 
 # Copy pipeline scripts into the container
 RUN mkdir -p scripts
@@ -19,10 +18,13 @@ COPY scripts/* scripts/
 
 # Setup renv
 RUN mkdir -p renv
-ENV RENV_PATHS_LIBRARY renv/library
+COPY .Rprofile .Rprofile
+COPY renv/activate.R renv/activate.R
+COPY renv/settings.json renv/settings.json
 COPY renv.lock renv.lock
 
 # Install R packages
 RUN R -e "install.packages('renv', repos = c(CRAN = 'https://cloud.r-project.org'))"
 RUN R -e "renv::restore()"
 
+CMD ["/bin/bash"]

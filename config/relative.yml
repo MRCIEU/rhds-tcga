@@ -3,7 +3,6 @@ paths:
     results: &pathresults 'rhds-tcga-files/results'
     docs: &pathdocs 'rhds-tcga-files/docs'
 
+
 use-apptainer: True
-apptainer-args: "-B *pathdata -B *pathresults -B *pathdocs"
-
-
+apptainer-args: '--cwd /pipeline -B scripts:/pipeline/scripts -B *pathdata -B *pathresults -B *pathdocs'

@@ -11,4 +11,6 @@ rule extract_data:
     log:
         f"{resultsdir}/logs/extract-data.log"
     shell:
-        "Rscript scripts/extract-data.r {datadir} {resultsdir}"
+        """
+        Rscript scripts/extract-data.r {datadir} {resultsdir}
+        """

@@ -69,15 +69,14 @@ Alternatively, the analyses can be run from within a container,
 e.g. using Apptainer. 
 Create an apptainer image as follows:
 
-```bash
-IMAGE=rhds-tcga-r
-sudo docker build -t $IMAGE -f Dockerfile .
-sudo docker save $IMAGE -o $IMAGE.tar
-sudo chown $USER ${IMAGE}.tar
-
-apptainer build $IMAGE.sif docker-archive://$IMAGE.tar
+```
+apptainer build rhds-tcga-r.sif rhds-tcga-r.def
 ```
 
+*It is possible to start a shell prompt in the container by running the following:*
+
+```
+apptainer shell -B /tmp/rhds-tcga-files -B scripts:/pipeline/scripts rhds-tcga-r.sif```
 
 ### Install pipeline dependencies: cluster option
 
@@ -98,6 +97,13 @@ file with the config file created for your installation.
 
 ```bash
 snakemake --configfile=config/mamba.yml all
+```
+
+<mark>Apptainer arguments ignored in the config file??</mark>
+
+```
+snakemake --configfile=config/apptainer.yml --use-apptainer all
+## --use-apptainer --apptainer-args "--cwd /pipeline -B /tmp/rhds-tcga-files/ -B scripts:/pipeline/scripts" all
 ```
 
 ## Pipeline description

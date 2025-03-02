@@ -7,4 +7,6 @@ rule download_data:
     log:
         f"{resultsdir}/logs/download-data.log"
     shell:
-        "source scripts/download-data.sh {datadir} {resultsdir}"
+        """
+        source scripts/download-data.sh {datadir} {resultsdir}
+        """

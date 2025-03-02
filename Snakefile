@@ -1,6 +1,10 @@
-datadir = config['paths']['data']
-resultsdir = config['paths']['results']
-docsdir = config['paths']['docs']
+datadir = config["paths"]["data"]
+resultsdir = config["paths"]["results"]
+docsdir = config["paths"]["docs"]
+
+onstart:
+    print("running analysis pipeline")
+    print(config)
 
 rule all:
     input:

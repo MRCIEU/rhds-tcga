@@ -10,4 +10,6 @@ rule combine_data:
     log:
         f"{resultsdir}/logs/combine-data.log"
     shell:
-        "Rscript scripts/combine.r {resultsdir}"
+        """
+        Rscript scripts/combine.r {resultsdir}
+        """
