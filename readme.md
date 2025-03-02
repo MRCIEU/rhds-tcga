@@ -76,7 +76,8 @@ apptainer build rhds-tcga-r.sif rhds-tcga-r.def
 *It is possible to start a shell prompt in the container by running the following:*
 
 ```
-apptainer shell -B /tmp/rhds-tcga-files -B scripts:/pipeline/scripts rhds-tcga-r.sif```
+apptainer shell -B /tmp/rhds-tcga-files -B scripts:/pipeline/scripts rhds-tcga-r.sif
+```
 
 ### Install pipeline dependencies: cluster option
 
