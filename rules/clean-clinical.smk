@@ -14,5 +14,6 @@ rule clean_clinical:
         """
         quarto render scripts/clean-clinical.qmd \
             -P resultsdir:"{resultsdir}"
-        mv scripts/clean-clinical.html scripts/clean-clinical_files {docsdir}
+        cp -r scripts/clean-clinical.html scripts/clean-clinical_files {docsdir}
+        rm -rf scripts/clean-clinical.html scripts/clean-clinical_files
         """

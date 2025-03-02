@@ -1,8 +1,0 @@
-paths:
-    data: &pathdata "/tmp/rhds-tcga-files/data"
-    results: &pathresults "/tmp/rhds-tcga-files/results"
-    docs: &pathdocs "/tmp/rhds-tcga-files/docs"
-
-
-use-apptainer: True
-apptainer-args: '--cwd /pipeline -B scripts:/pipeline/scripts -B *pathdata -B *pathresults -B *pathdocs'

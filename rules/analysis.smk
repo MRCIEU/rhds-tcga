@@ -12,5 +12,6 @@ rule analysis:
         """
         quarto render scripts/analysis.qmd \
             -P resultsdir:"{resultsdir}"
-        mv scripts/analysis.html scripts/analysis_files {docsdir}
+        cp -r scripts/analysis.html scripts/analysis_files {docsdir}
+        rm -rf scripts/analysis.html scripts/analysis_files
         """

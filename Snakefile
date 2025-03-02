@@ -1,10 +1,15 @@
-datadir = config["paths"]["data"]
-resultsdir = config["paths"]["results"]
-docsdir = config["paths"]["docs"]
+from dotenv import dotenv_values
+
+myconfig = dotenv_values(config["CONFIGENV"])
+
+datadir = myconfig["DATADIR"]
+resultsdir = myconfig["RESULTSDIR"]
+docsdir = myconfig["DOCSDIR"]
 
 onstart:
     print("running analysis pipeline")
-    print(config)
+    print(f"config file = {config['CONFIGENV']}")
+    print(myconfig)
 
 rule all:
     input:

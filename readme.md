@@ -2,27 +2,32 @@
 
 ## Setup
 
-Create a `config/settings.yml` file based on `config/template.yml` that
+Create a `config/my.env` file based on
+[config/template.env](config/template.env) that
 will at least have the following variables:
 
 ```
-paths:
-    data: '/PATH/TO/DATA/DIR'
-    results: '/PATH/TO/RESULTS/DIR'
-    docs: '/PATH/TO/DOCS/DIR'
+DATADIR="/PATH/TO/DATA/DIR"
+RESULTSDIR="/PATH/TO/RESULTS/DIR"
+DOCSDIR="/PATH/TO/DOCS/DIR"
 ```
 
-The data directory is for raw downloaded data that ideally you won't modify.
+* The data directory is for raw downloaded data that ideally you won't modify.
 
-The results directory is for intermediate steps and final results.
+* The results directory is for intermediate steps and final results.
 
-The docs directory is for reports describing results. 
+* The docs directory is for reports describing results. 
 
-Example config files can be found in `config/`
-for a mamba-based installation ([config/mamba.yml](config/mamba.yml)
-and for a container-based installation ([config/apptainer.yml](config/apptainer.yml)).
+*All files in the results and docs directories should be reproducible.*
 
-All files in the results and docs directories should be reproducible.
+Config files [config/default.env](config/default.env)
+and [config/apptainer.env](config/apptainer.env)
+provide fully functional configurations.  They both assume that
+the data, results and docs directories are in `/tmp/rhds-tcga-files/`.
+
+File [config/apptainer.env](config/apptainer.env)
+demonstrates how to  configure the pipeline to use
+and Apptainer container image (described below). 
 
 ## Installation
 
@@ -43,6 +48,7 @@ Install snakemake.
 
 ```
 pip3 install snakemake==8.28.0
+pip3 install dotenv==0.9.9
 ```
 
 ### Install pipeline dependencies: mamba option
@@ -66,17 +72,19 @@ For reference, the lock file was created using
 ### Install pipeline dependencies: container option
 
 Alternatively, the analyses can be run from within a container,
-e.g. using Apptainer. 
-Create an apptainer image as follows:
+e.g. using Apptainer.
+
+Create an Apptainer image file `rhds-tcga-r.sif` as follows:
 
 ```
 apptainer build rhds-tcga-r.sif rhds-tcga-r.def
 ```
 
-*It is possible to start a shell prompt in the container by running the following:*
+Note that it is possible to obtain a shell prompt
+in the container by running the following:
 
 ```
-apptainer shell -B /tmp/rhds-tcga-files -B scripts:/pipeline/scripts rhds-tcga-r.sif
+apptainer shell -B [DATA FOLDER] -B [RESULTS FOLDER] -B scripts:/pipeline/scripts rhds-tcga-r.sif
 ```
 
 ### Install pipeline dependencies: cluster option
@@ -87,25 +95,21 @@ apptainer shell -B /tmp/rhds-tcga-files -B scripts:/pipeline/scripts rhds-tcga-r
 module load languages/python/3.12.3
 module load apptainer/1.1.9 ## or 1.3.1
 pip3 install snakemake==8.28.0
+pip3 install dotenv==0.9.9
 ...
 ```
-
 
 ## Running the pipeline
 
 Run the pipeline using Snakemake replacing the configuration
-file with the config file created for your installation.
+file with the config file created for your chosen environment, e.g.
 
 ```bash
-snakemake --configfile=config/mamba.yml all
+bash run-pipeline.sh config/mylaptop.env
 ```
 
-<mark>Apptainer arguments ignored in the config file??</mark>
-
-```
-snakemake --configfile=config/apptainer.yml --use-apptainer all
-## --use-apptainer --apptainer-args "--cwd /pipeline -B /tmp/rhds-tcga-files/ -B scripts:/pipeline/scripts" all
-```
+A discussion of pipeline implementation decisions
+can be found [here](readme-decisions.md). 
 
 ## Pipeline description
 
@@ -173,7 +177,7 @@ Rscript scripts/extract-data.r
 Final clinical phenotype cleaning is also performed
 
 ```
-quarto render scripts/clean-clinical.qmd --output-dir docs
+quarto render scripts/clean-clinical.qmd
 ```
 
 ### DNA methylation predicted protein abundances
@@ -202,7 +206,7 @@ There are two example analyses performed in `scripts/analysis.qmd` and
 summarized in the `docs/analysis.html` report.
 
 ```
-quarto render scripts/analysis.qmd --output-dir docs
+quarto render scripts/analysis.qmd 
 ```
 
 1. The methylation dataset has observations performed on both tumor and 

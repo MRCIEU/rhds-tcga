@@ -1,5 +1,0 @@
-paths:
-    data: '/tmp/rhds-tcga-files/data'
-    results: '/tmp/rhds-tcga-files/results'
-    docs: '/tmp/rhds-tcga-files/docs'
-
