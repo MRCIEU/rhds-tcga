@@ -26,8 +26,9 @@ include: "rules/combine-data.smk"
 include: "rules/analysis.smk"
 
 rule clean:
-    "Clean up results directory"
+    "Clean up output directories"
     shell:
         """
         rm {resultsdir}/*
+        rm {docsdir}/*
         """
