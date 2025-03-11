@@ -1,144 +1,127 @@
 # Prediction of cancer progression from imputed proteomics
 
+This pipeline uses clinical and DNA methylation data
+from head and neck squamous cell carcinomas (HNSCCs)
+in The Cancer Genome Atlas (TCGA) to predict disease progression.
 
-## Setup
+Individual steps and outputs of the pipeline are described [here](README-description.md).
 
-Create a `config.env` file based on `config-template.env` that will have the following variables:
+## Pipeline configuration
+
+Create a `config.env` file based on
+[config-template.env](config-template.env) that
+will at least have the following variables:
 
 ```
-datadir=/path/to/data
-resultsdir=/path/to/results
+datadir="/PATH/TO/DATA/DIR"
+resultsdir="/PATH/TO/RESULTS/DIR"
+docsdir="/PATH/TO/DOCS/DIR"
 ```
 
-The data directory is for raw downloaded data that ideally you won't modify.
+* The data directory is for raw downloaded data that ideally you won't modify.
 
-The results directory is for intermediate steps and final results. All files in the results directory should be reproducible.
+* The results directory is for intermediate steps and final results.
 
+* The docs directory is for reports describing results. 
 
-## Installation
+*All files in the results and docs directories should be reproducible.*
 
-To run the analysis you need R packages installed:
+## Pipeline installation
+
+### Install mamba
+
+Ensure that [mamba](README-mamba.md) is installed.
+
+### Install snakemake
+
+Create a mamba environment for the pipeline.
+
+```
+mamba create --name "rhds-tcga" python=3.12.8
+mamba activate rhds-tcga
+```
+
+Install snakemake.
+
+```
+pip3 install snakemake==8.28.0
+pip3 install dotenv==0.9.9
+```
+
+### Install pipeline dependencies: mamba option
+
+If it is not already installed, R can be installed using mamba:
+
+```
+mamba install conda-forge::r-base=4.4.2
+```
+
+Start R and install R packages using the
+renv lock file [renv.lock](renv.lock).
 
 ```R
 renv::restore()
 ```
 
-Alternatively run the analysis from within a container. e.g. with Docker:
+For reference, the lock file was created using
+[these steps](README-renv.md).
 
-```bash
-docker build -t rhds-tcga .
+### Install pipeline dependencies: container option
+
+Alternatively, the analyses can be run from within a container,
+e.g. using Apptainer.
+
+Create an Apptainer image file `rhds-tcga-r.sif` as follows:
+
+```
+apptainer build rhds-tcga-r.sif rhds-tcga-r.def
 ```
 
-## Pipeline
+### Install pipeline dependencies: modules option
 
-### Complete pipeline
+On a system with python and apptainer modules, load them as follows:
 
-The entire analysis including data download can be run with
+```
+module load languages/python/3.12.3
+module load apptainer/1.3.6
+```
 
-```bash
+Snakemake and the `dotenv` python package can be installed 
+by pip.
+
+```
+pip3 install snakemake==8.28.0
+pip3 install dotenv==0.9.9
+...
+```
+
+## Running the pipeline
+
+Run the pipeline **without** containers:
+
+```
 snakemake
 ```
 
-Individual steps are described below.
-
-### Downloading and preparing the dataset
-
-Available TCGA data collection on HNSC is well summarized here:
-https://gdac.broadinstitute.org/runs/stddata__2016_01_28/samples_report/HNSC.html
-
-Compiled a list of files to download from the GDAC website:
-http://gdac.broadinstitute.org/runs/stddata__2016_01_28/data/HNSC/20160128
-See `files.csv` in this directory.
-
-The pipeline assumes a typical rdsf directory structure, with this repo
-cloned under scripts:
+Run the pipeline **with** containers:
 
 ```
-├── data
-├── results
-└── scripts
-    └── rhds-tcga
+source config.env
+
+snakemake \
+    --use-apptainer \
+    --apptainer-args "--cwd /pipeline -B scripts:/pipeline/scripts -B ${DATADIR} -B ${RESULTSDIR} -B ${DOCSDIR}"
 ```
 
-Data files will be downloaded to the `data` directory by using the 
-below command:
+Run the pipeline *with* containers using a script
+(assumes that `config.env` specifies required apptainer arguments):
 
-```
-bash scripts/download-data.sh
-```
-
-### Downloading PanCancer Atlas clinical info
-
-Clinical outcome data has been cleaned up as part of the
-PanCancer Atlas project
-(https://gdc.cancer.gov/about-data/publications/pancanatlas).
-
-> Liu J, Lichtenberg T, Hoadley KA, et al. An Integrated TCGA Pan-Cancer
-> Clinical Data Resource to Drive High-Quality Survival Outcome
-> Analytics. Cell. 2018;173(2):400-416.e11. doi:10.1016/j.cell.2018.02.052
-
-This publication cautions against using overall survival as an outcome
-because the follow-up isn't long enough.
-Recommends progression-free interval (PFI) or
-disease-free interval (DFI).
-PFI and DFI are available in Supplementary Table 1
-(https://api.gdc.cancer.gov/data/1b5f413e-a8d1-4d10-92eb-7c4ae739ed81).
-The table is downloaded to the `data` directory
-using the following script.
-
-```
-Rscript scripts/download-pan-cancer-clinical.r
+```bash
+bash run-pipeline.sh 
 ```
 
-### Extract tcga data and clean clinical phenotypes
+## Pipeline implementation explanations
 
-The datasets will be generated
-from the downloaded files to the `data` directory
-using the following script.
+A discussion of pipeline implementation decisions
+can be found [here](README-decisions.md). 
 
-```
-Rscript scripts/extract-data.r
-```
-
-Final clinical phenotype cleaning is also performed
-
-```
-quarto render scripts/clean-clinical.qmd --output-dir docs
-```
-
-### DNA methylation predicted protein abundances
-
-Estimate 109 predicted protein levels using DNA methylation data
-using the prediction models developed by Gadd et al. 2022 and 
-implemented in meffonym R package (https://github.com/perishky/meffonym):
-
-> Gadd et al., ‘Epigenetic Scores for the Circulating Proteome as Tools for 
-> Disease Prediction’. Elife. 2022. doi: 10.7554/ELIFE.71802
-
-```
-Rscript scripts/predict-proteins.r
-```
-
-These results are combine with clincal phenotyping data into
-a final analysis ready dataset
-
-```
-Rscript scripts/combine.r
-```
-
-### Example analysis 
-
-There are two example analyses performed in `scripts/analysis.qmd` and 
-summarized in the `docs/analysis.html` report.
-
-```
-quarto render scripts/analysis.qmd --output-dir docs
-```
-
-1. The methylation dataset has observations performed on both tumor and 
-adjacent normal tissues. The first analysis looks at the association between
-DNA methylation predicted protein abundances and tissue type (tumor vs. normal)
-
-2. Progression free interval (PFI) is a measure of cancer progression. This
-analysis restricts to DNA methylation predicted protein abundances from tumor
-cells and looks at association with PFI.

@@ -7,6 +7,8 @@ resultsdir <- Sys.getenv("resultsdir")
 pred.protein.filename <- file.path(resultsdir, "predicted-proteins.txt")
 clinical.filename <- file.path(resultsdir, "clinical-clean.txt")
 
+source(here("scripts", "my-write-table-function.r"))
+
 ## get helper functions for parsing tcga ids
 source(here("scripts", "extract-participant.r"))
 
@@ -52,10 +54,6 @@ out <- cbind(
 )
 
 ## export results
-my.write.table <- function(x, filename) {
-  cat("saving", basename(filename), "...\n")
-  write.table(x, file = filename, row.names = T, col.names = T, sep = "\t")
-}
 my.write.table(
   out,
   file.path(resultsdir, "combined-clin-pred-proteins.txt")
