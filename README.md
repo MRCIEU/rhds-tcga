@@ -28,17 +28,15 @@ docsdir="/PATH/TO/DOCS/DIR"
 
 ## Pipeline installation
 
-### Install mamba
+### Install pipeline dependencies: mamba option
 
 Ensure that [mamba](README-mamba.md) is installed.
-
-### Install snakemake
 
 Create a mamba environment for the pipeline.
 
 ```
-mamba create --name "rhds-tcga" python=3.12.8
-mamba activate rhds-tcga
+mamba create --name "rhds" python=3.12.8
+mamba activate rhds
 ```
 
 Install snakemake.
@@ -48,12 +46,10 @@ pip3 install snakemake==8.28.0
 pip3 install dotenv==0.9.9
 ```
 
-### Install pipeline dependencies: mamba option
-
-If it is not already installed, R can be installed using mamba:
+If it is not already installed, R can be installed as well:
 
 ```
-mamba install conda-forge::r-base=4.4.2
+mamba install conda-forge::r-base=4.4.1
 ```
 
 Start R and install R packages using the
@@ -68,32 +64,42 @@ For reference, the lock file was created using
 
 ### Install pipeline dependencies: container option
 
-Alternatively, the analyses can be run from within a container,
+Alternatively, the rules can be executed from within a container,
 e.g. using Apptainer.
 
-Create an Apptainer image file `rhds-tcga-r.sif` as follows:
+With this option, you'll still need
+apptainer, python and snakemake installed.
+These can be installed using mamba described above, or,
+if you using an HPC system, they may be available as modules.
+
+If installing using mamba:
 
 ```
-apptainer build rhds-tcga-r.sif rhds-tcga-r.def
+mamba create --name "rhds" python=3.12.8
+mamba activate rhds
+mamba install conda-forge::apptainer=1.3.6
 ```
 
-### Install pipeline dependencies: modules option
-
-On a system with python and apptainer modules, load them as follows:
+If available as modules:
 
 ```
 module load languages/python/3.12.3
 module load apptainer/1.3.6
 ```
 
-Snakemake and the `dotenv` python package can be installed 
-by pip.
+Snakemake and the `dotenv` python package can be installed using pip:
 
 ```
 pip3 install snakemake==8.28.0
 pip3 install dotenv==0.9.9
-...
 ```
+
+If it hasn't been already,
+the container image can be built as follows:
+
+```
+apptainer build rhds-tcga-r.sif rhds-tcga-r.def
+``
 
 ## Running the pipeline
 
@@ -110,7 +116,7 @@ source config.env
 
 snakemake \
     --use-apptainer \
-    --apptainer-args "--cwd /pipeline -B scripts:/pipeline/scripts -B ${DATADIR} -B ${RESULTSDIR} -B ${DOCSDIR}"
+    --apptainer-args "--fakeroot --cwd /pipeline -B scripts:/pipeline/scripts ${DATADIR} ${RESULTSDIR} ${DOCSDIR}"
 ```
 
 Run the pipeline *with* containers using a script

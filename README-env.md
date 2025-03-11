@@ -12,7 +12,7 @@ package dependencies were installed and
 there versions saved to the lock file.
 
 ```r
-renv::install()
 renv::install("perishky/meffonym")
+renv::install()
 renv::snapshot()
 ```
