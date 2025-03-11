@@ -27,10 +27,9 @@ From: rocker/r-ver:4.4.2
     export LC_ALL=C
 
 %runscript
-    echo "Container was created $NOW"
     echo "Arguments received: $*"
-    exec echo "$@"
     cd /pipeline
+    exec "$@"
     
 %help
     Runs R scripts in the rhds-tcga analysis.
