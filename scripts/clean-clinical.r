@@ -1,10 +1,3 @@
----
-title: Clean clinical data
----
-
-To do..
-
-```{r}
 library(here)
 readRenviron(here("config.env"))
 
@@ -89,4 +82,3 @@ clinical$dfi <- clinical.pan$DFI
 clinical$dfi.time <- clinical.pan$DFI.time
 
 write.table(clinical, file = output.filename, row.names = F, col.names = T, sep = "\t")
-```
