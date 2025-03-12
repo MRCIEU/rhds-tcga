@@ -1,15 +1,11 @@
 #!/bin/bash
 
-CONFIGENV="config/default.env"
+source config.env
 
-if [[ $# -gt 0 ]]; then
-    CONFIGENV=$1
-fi
-
-source $CONFIGENV
+mkdir -p ${datadir} ${resultsdir} ${docsdir}
 
 set -x
-snakemake --config CONFIGENV=$CONFIGENV "${SNAKEMAKE_ARGS[@]}"
+snakemake "${snakemake_args[@]}"
 set +x
 
 

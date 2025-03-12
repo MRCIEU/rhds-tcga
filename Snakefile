@@ -1,14 +1,13 @@
 from dotenv import dotenv_values
 
-myconfig = dotenv_values(config["CONFIGENV"])
+myconfig = dotenv_values("config.env")
 
-datadir = myconfig["DATADIR"]
-resultsdir = myconfig["RESULTSDIR"]
-docsdir = myconfig["DOCSDIR"]
+datadir = myconfig["datadir"]
+resultsdir = myconfig["resultsdir"]
+docsdir = myconfig["docsdir"]
 
 onstart:
     print("running analysis pipeline")
-    print(f"config file = {config['CONFIGENV']}")
     print(myconfig)
 
 rule all:
