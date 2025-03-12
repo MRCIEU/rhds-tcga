@@ -79,4 +79,7 @@ apptainer run \
     quarto render scripts/analysis.qmd
 ```
 
-
+> **Note:** on some system `--fakeroot` may generate an
+> error. The error message would say something like
+> "FATAL:   --fakeroot used without sandbox image or user namespaces".
+> This can be resolved by omitting the `--fakeroot` option.
