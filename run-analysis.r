@@ -21,7 +21,8 @@ extract.file <- function(tar.file, extract.file, new.file) {
   untar(tar.file)
 
   # move the data to named output
-  file.rename(x.file, new.file)
+  # file.rename(x.file, new.file)
+  system(paste("mv", x.file, new.file))
 
   # remove untared directory
   unlink(dirname(x.file), recursive = TRUE)
@@ -75,7 +76,9 @@ awk_command <-
   )
 
 # Execute the command
-system(awk_command)
+if(!file.exists(file.path(resultsdir, "methylation-clean.txt"))) {
+    system(awk_command)
+}
 
 ######################
 ## clean-clinical.r ##
