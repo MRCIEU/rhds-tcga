@@ -59,7 +59,7 @@ mamba install conda-forge::apptainer=1.3.6
 
 ```
 apptainer build rhds-tcga-r.sif rhds-tcga-r.def
-``
+```
 
 ## Running the pipeline commands in containers
 
