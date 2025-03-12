@@ -14,7 +14,8 @@ extract.file <- function(tar.file, extract.file, new.file) {
     )
   # extract the tar file
   cat("Extracting", tar.file, "to", new.file, "\n")
-  untar(tar.file)
+  untar(tar.file, exdir=resultsdir, extras="--no-same-owner")
+  x.file = file.path(resultsdir, x.file)
 
   # move the data to named output
   file.rename(x.file, new.file)

@@ -1,0 +1,36 @@
+Bootstrap: docker
+From: rocker/r-ver:4.4.1
+
+%files
+    renv.lock /pipeline/renv.lock
+
+%post    
+    # install curl 
+    apt-get update && \
+    apt-get install -y libcurl4-openssl-dev curl
+
+    # install quarto
+    QUARTO_VERSION=1.6.42
+    QUARTO_URL=https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb
+    curl -o quarto-linux-amd64.deb -L ${QUARTO_URL} && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -f -y ./quarto-linux-amd64.deb && \
+    rm quarto-linux-amd64.deb
+
+    # install renv
+    cd /pipeline
+    R -e "install.packages('renv', repos = c(CRAN = 'https://cloud.r-project.org'))"
+    export RENV_PATHS_ROOT=${RENV_CACHE:-"renv-cache"}
+    R --quiet -e 'renv::init()'
+    R --quiet -e 'renv::restore()'
+    
+%environment
+    export LC_ALL=C
+
+%runscript
+    echo "Arguments received: $*"
+    cd /pipeline
+    exec "$@"
+    
+%help
+    Runs R scripts in the rhds-tcga analysis.
+

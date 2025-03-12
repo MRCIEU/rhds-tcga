@@ -1,28 +1,16 @@
 library(here)
-library("IlluminaHumanMethylation450kanno.ilmn12.hg19")
 library(meffonym)
 
 readRenviron(here("config.env"))
 datadir <- Sys.getenv("datadir")
 resultsdir <- Sys.getenv("resultsdir")
 
+source(here("scripts/my-write-table-function.r"))
+source(here("scripts/my-read-table-function.r"))
+
 methylation.file <- file.path(resultsdir, "methylation-clean.txt")
 
 ## Start to Process Files
-
-my.read.table <- function(filename, ...) {
-  require(data.table)
-  cat("reading", basename(filename), "... ")
-  x <- fread(
-    filename,
-    header = T,
-    stringsAsFactors = F,
-    sep = "\t",
-    ...
-  )
-  cat(nrow(x), "x", ncol(x), "\n")
-  as.data.frame(x, stringsAsFactors = F)
-}
 data <- my.read.table(methylation.file)
 index <- grep("Hybrid", colnames(data))
 rownames(data) <- data[, index[1]]
@@ -68,10 +56,6 @@ pred.proteins <- scale(pred.proteins)
 colnames(pred.proteins) <- make.names(colnames(pred.proteins))
 
 ## export results
-my.write.table <- function(x, filename) {
-  cat("saving", basename(filename), "...\n")
-  write.table(x, file = filename, row.names = T, col.names = T, sep = "\t")
-}
 my.write.table(
   pred.proteins,
   file.path(resultsdir, "predicted-proteins.txt")
