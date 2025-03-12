@@ -113,10 +113,10 @@ Run the pipeline **with** containers:
 
 ```
 source config.env
-
+mkdir -p ${docsdir} ${resultsdir} ${datadir}
 snakemake \
     --use-apptainer \
-    --apptainer-args "--fakeroot --cwd /pipeline -B scripts:/pipeline/scripts ${DATADIR} ${RESULTSDIR} ${DOCSDIR}"
+    --apptainer-args "--fakeroot --cwd /pipeline -B scripts:/pipeline/scripts -B config.env:/pipeline/config.env -B ${datadir} -B ${resultsdir} -B ${docsdir}"
 ```
 
 Run the pipeline *with* containers using a script

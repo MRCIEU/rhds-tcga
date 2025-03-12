@@ -63,7 +63,7 @@ Rscript scripts/extract-data.r
 Final clinical phenotype cleaning is also performed
 
 ```
-quarto render scripts/clean-clinical.qmd
+Rscript scripts/clean-clinical.r
 ```
 
 ## DNA methylation predicted protein abundances
@@ -79,7 +79,7 @@ implemented in meffonym R package (https://github.com/perishky/meffonym):
 Rscript scripts/predict-proteins.r
 ```
 
-These results are combine with clincal phenotyping data into
+These results are combine with clinical phenotyping data into
 a final analysis ready dataset
 
 ```
