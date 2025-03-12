@@ -99,7 +99,7 @@ the container image can be built as follows:
 
 ```
 apptainer build rhds-tcga-r.sif rhds-tcga-r.def
-``
+```
 
 ## Running the pipeline
 
