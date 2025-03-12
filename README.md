@@ -61,6 +61,13 @@ mamba install conda-forge::apptainer=1.3.6
 apptainer build rhds-tcga-r.sif rhds-tcga-r.def
 ```
 
+> If the build fails on your system and you don't have time to figure out why,
+> it can be downloaded:
+
+```
+wget https://zenodo.org/records/15011337/files/rhds-tcga-r.sif?download=1 -O rhds-tcga-r.sif
+```
+
 ## Running the pipeline commands in containers
 
 Any individual [pipeline command](README-description.md),
