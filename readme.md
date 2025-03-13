@@ -4,7 +4,7 @@ This pipeline uses clinical and DNA methylation data
 from head and neck squamous cell carcinomas (HNSCCs)
 in The Cancer Genome Atlas (TCGA) to predict disease progression.
 
-Individual steps and outputs of the pipeline are described [here](README-description.md).
+Individual steps and outputs of the pipeline are described [here](readme-description.md).
 
 ## Setup
 
