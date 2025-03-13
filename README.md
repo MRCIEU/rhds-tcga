@@ -73,11 +73,7 @@ source config.env
 mkdir -p ${datadir} ${resultsdir} ${docsdir}
 apptainer run \
     --fakeroot \
-<<<<<<< HEAD
-	-B $(pwd) \
-=======
     -B $(pwd) \
->>>>>>> a0644ca8b11e8f265a880fd98d3ed05e2b980fbe
     -B ${datadir} -B ${resultsdir} -B ${docsdir} \
     rhds-tcga-r.sif \
     quarto render scripts/analysis.qmd
