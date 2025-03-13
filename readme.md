@@ -16,6 +16,8 @@ will at least have the following variables:
 datadir="/PATH/TO/DATA/DIR"
 resultsdir="/PATH/TO/RESULTS/DIR"
 docsdir="/PATH/TO/DOCS/DIR"
+
+snakemake_args=(--use-apptainer --apptainer-args "--fakeroot -B ${datadir} -B ${resultsdir} -B ${docsdir} -B $(pwd)")
 ```
 
 * The data directory is for raw downloaded data that ideally you won't modify.
