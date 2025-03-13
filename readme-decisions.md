@@ -16,13 +16,13 @@ paths:
 
 use-apptainer: True
 
-apptainer-args: '--cwd /pipeline -B scripts:/pipeline/scripts -B *pathdata -B *pathresults -B *pathdocs'
+apptainer-args: "--fakeroot -B *pathdata -B *pathresults -B *pathdocs -B $(pwd)"
 ```
 
 The equivalent is possible from the command line:
 
 ```
-snakemake --use-apptainer --apptainer-args "--cwd /pipeline ..." 
+snakemake --use-apptainer --apptainer-args "--fakeroot ..."
 ```
 
 File paths used by the pipeline can be loaded directly
@@ -52,9 +52,9 @@ However:
   is hard-coded in each script.
 
 The improve transparency and flexibility,
-the config file is passed as an argument to snakemake from the command-line
+the config file is loaded by snakemake
 and only the configuration variables needed by each script
-are passed as arguments to the script.
+are passed as arguments to each script.
 
 ## Quarto outputs
 
@@ -63,45 +63,28 @@ i.e. if it is set, quarto will not generate outputs to the specified
 directory. There are dozens of discussions of this unexpected behavior
 online.
 
-Consequently, the snakemake rules simply move the files from the scripts
-folder to the desired location.
+It seems that the only way to redirect outputs is to specify
+the output directory in a yaml file.
+However, this creates a redunancy by having to specify the
+`docs/` directory in more than one place.
 
-Unfortunately, this creates a minor hiccup for apptainer containers
-if the scripts folder is copied or cloned into the container image
-when it is created.
-Once the container image is created,
-these files cannot change.
-The solution is to instead bind the scripts folder
-to the container at run time.
-See, e.g. `-B scripts:/pipeline/scripts` in
-[config/apptainer.env](config/apptainer.env).
+By default, quarto generates outputs in the directory of the quarto
+file.  Quarto also inexplicably loads the quarto input file
+in *write* mode! Since Apptainer containers are read-only,
+the quarto file and its directory must be writable. 
 
-Turns out that this also solves the problem that quarto opens 
-qmd files in *write* mode!
-
-## Container working directory is explicitly specified 
-
-Apptainer binds the current working directory and user home directory
-by default to the container.
-The apptainer working directory is by default
-the bound current working directory.
-If this is not changed,
-then R inside the container loads the external
-rather than the internal renv environment.
-The solution is to create a directory in the image
-(here `/pileline`) to contain the renv files
-and the scripts folder.
-
+Here we solve both problems by mounting the current external
+working directory (which contains the `scripts` directory)
+as the working directory in the container.
+After the quarto is finished, the snakemake rule simply
+moves the files from the scripts folder to the specified
+`docs` directory.
 
 ## Container image from apptainer definition rather than Dockerfile
 
 Unfortunately docker is not available on Bristol HPC.
 Although it is possible to work around this by creating
 the docker image on another system, e.g. user laptop,
-I found that, although everything worked as expected
-in the docker image, renv hung in the
-apptainer-converted image.
-It seems to have something to do with how renv wants
-to modify files in the container.
-Docker containers allow container files to change
-but Apptainer does not.
+and running it with apptainer in HPC,
+I encountered file permission issues due to docker images
+being writable and apptainer images being read-only.
