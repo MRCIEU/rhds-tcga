@@ -10,5 +10,5 @@ rule predict_proteins:
         f"{resultsdir}/logs/predict-proteins.log"
     shell:
         """
-        Rscript scripts/predict-proteins.r
+        Rscript scripts/predict-proteins.r {resultsdir}
         """

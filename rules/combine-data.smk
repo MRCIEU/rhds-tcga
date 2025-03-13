@@ -11,5 +11,5 @@ rule combine_data:
         f"{resultsdir}/logs/combine-data.log"
     shell:
         """
-        Rscript scripts/combine.r
+        Rscript scripts/combine.r {resultsdir}
         """

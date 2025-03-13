@@ -4,6 +4,7 @@ rule clean_clinical:
         f"{resultsdir}/clinical.txt",
         f"{resultsdir}/TCGA-CDR-SupplementalTableS1.txt"
     output:
+        f"{docsdir}/clean-clinical.html",
         f"{resultsdir}/clinical-clean.txt"
     container:
         "rhds-tcga-r.sif"
@@ -11,5 +12,8 @@ rule clean_clinical:
         f"{resultsdir}/logs/clean-clinical.log"
     shell:
         """
-        Rscript scripts/clean-clinical.r
+        quarto render scripts/clean-clinical.qmd \
+            -P resultsdir:"{resultsdir}"
+        cp -r scripts/clean-clinical.html scripts/clean-clinical_files {docsdir}
+        rm -rf scripts/clean-clinical.html scripts/clean-clinical_files
         """

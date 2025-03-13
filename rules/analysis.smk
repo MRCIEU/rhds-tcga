@@ -10,7 +10,8 @@ rule analysis:
         f"{resultsdir}/logs/analysis.log"
     shell:
         """
-        quarto render scripts/analysis.qmd
+        quarto render scripts/analysis.qmd \
+            -P resultsdir:"{resultsdir}"
         cp -r scripts/analysis.html scripts/analysis_files {docsdir}
         rm -rf scripts/analysis.html scripts/analysis_files
         """

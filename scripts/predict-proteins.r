@@ -1,12 +1,10 @@
-library(here)
+args <- commandArgs(trailingOnly=TRUE)
+resultsdir <- args[1]
+
 library(meffonym)
 
-readRenviron(here("config.env"))
-datadir <- Sys.getenv("datadir")
-resultsdir <- Sys.getenv("resultsdir")
-
-source(here("scripts/my-write-table-function.r"))
-source(here("scripts/my-read-table-function.r"))
+source("scripts/my-write-table-function.r")
+source("scripts/my-read-table-function.r")
 
 methylation.file <- file.path(resultsdir, "methylation-clean.txt")
 
