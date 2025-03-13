@@ -65,12 +65,58 @@ wget https://zenodo.org/records/15011337/files/rhds-tcga-r.sif?download=1 -O rhd
 ## Running the pipeline commands in containers
 
 Any individual [pipeline command](README-description.md),
-can be run via apptainer, e.g. we can run
-`quarto render scripts/analysis.qmd` as follows:
+can be run via apptainer, e.g.
+below we run all the steps in the pipeline
+within our container:
 
 ```
 source config.env
 mkdir -p ${datadir} ${resultsdir} ${docsdir}
+
+apptainer run \
+    --fakeroot \
+    -B $(pwd) \
+    -B ${datadir} -B ${resultsdir} -B ${docsdir} \
+    rhds-tcga-r.sif \
+    bash scripts/download-data.sh
+
+apptainer run \
+    --fakeroot \
+    -B $(pwd) \
+    -B ${datadir} -B ${resultsdir} -B ${docsdir} \
+    rhds-tcga-r.sif \
+    Rscript scripts/download-pan-cancer-clinical.r
+
+apptainer run \
+    --fakeroot \
+    -B $(pwd) \
+    -B ${datadir} -B ${resultsdir} -B ${docsdir} \
+    rhds-tcga-r.sif \
+    Rscript scripts/extract-data.r
+
+apptainer run \
+    --fakeroot \
+    -B $(pwd) \
+    -B ${datadir} -B ${resultsdir} -B ${docsdir} \
+    rhds-tcga-r.sif \
+    Rscript scripts/clean-clinical.r
+
+
+apptainer run \
+    --fakeroot \
+    -B $(pwd) \
+    -B ${datadir} -B ${resultsdir} -B ${docsdir} \
+    rhds-tcga-r.sif \
+    Rscript scripts/predict-proteins.r
+
+
+apptainer run \
+    --fakeroot \
+    -B $(pwd) \
+    -B ${datadir} -B ${resultsdir} -B ${docsdir} \
+    rhds-tcga-r.sif \
+    Rscript scripts/combine.r
+
 apptainer run \
     --fakeroot \
     -B $(pwd) \
