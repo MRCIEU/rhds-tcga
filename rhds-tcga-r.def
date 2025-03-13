@@ -1,9 +1,6 @@
 Bootstrap: docker
 From: rocker/r-ver:4.4.1
 
-%files
-    renv.lock /pipeline/renv.lock
-
 %post    
     # install curl 
     apt-get update && \
@@ -13,24 +10,23 @@ From: rocker/r-ver:4.4.1
     QUARTO_VERSION=1.6.42
     QUARTO_URL=https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb
     curl -o quarto-linux-amd64.deb -L ${QUARTO_URL} && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -f -y ./quarto-linux-amd64.deb && \
-    rm quarto-linux-amd64.deb
+        DEBIAN_FRONTEND=noninteractive apt-get install -f -y ./quarto-linux-amd64.deb && \
+        rm quarto-linux-amd64.deb
 
-    # install renv
-    cd /pipeline
-    R -e "install.packages('renv', repos = c(CRAN = 'https://cloud.r-project.org'))"
-    export RENV_PATHS_ROOT=${RENV_CACHE:-"renv-cache"}
-    R --quiet -e 'renv::init()'
-    R --quiet -e 'renv::restore()'
+    # install R packages
+    R -e "options(warn=2); install.packages('data.table')"
+    R -e "options(warn=2); install.packages('ggplot2')"
+    R -e "options(warn=2); install.packages('ggrepel')"
+    R -e "options(warn=2); install.packages('readxl')"
+    R -e "options(warn=2); install.packages('remotes')"
+    R -e "options(warn=2); install.packages('quarto')"
+    R -e "options(warn=2); remotes::install_github('perishky/meffonym')"
 
-    touch /pipeline/.here ## for the here R package
-    
 %environment
     export LC_ALL=C
 
 %runscript
     echo "Arguments received: $*"
-    cd /pipeline
     exec "$@"
     
 %help

@@ -31,29 +31,23 @@ docsdir="/PATH/TO/DOCS/DIR"
 
 ## Pipeline installation
 
-### If modules are available
+### If apptainer is available as a module
 
 ```
-module load languages/python/3.12.3
 module load apptainer/1.3.6
 ```
 
-### If any modules are not available
+### If apptainer needs to be installed
 
 Ensure that [mamba](README-mamba.md) is installed.
 
-Create a mamba environment for the pipeline.
-
-```
-mamba create --name "rhds" python=3.12.8
-mamba activate rhds
-```
-
-Install apptainer:
+Create a mamba environment for the pipeline, 
+then load the environment and install apptainer. 
 
 ```
 mamba install conda-forge::apptainer=1.3.6
 ```
+
 
 ## Build the container image
 
@@ -72,8 +66,7 @@ source config.env
 mkdir -p ${datadir} ${resultsdir} ${docsdir}
 apptainer run \
     --fakeroot \
-    -B scripts:/pipeline/scripts \
-    -B config.env:/pipeline/config.env \
+	-B $(pwd) \
     -B ${datadir} -B ${resultsdir} -B ${docsdir} \
     rhds-tcga-r.sif \
     quarto render scripts/analysis.qmd
