@@ -18,7 +18,7 @@ extract.file <- function(tar.file, extract.file, new.file) {
   x.file = file.path(resultsdir, x.file)
 
   # move the data to named output
-  file.rename(x.file, new.file)
+  file.copy(x.file, new.file)
 
   # remove untared directory
   unlink(dirname(x.file), recursive = TRUE)
