@@ -20,6 +20,7 @@ From: rocker/r-ver:4.4.1
     R -e "options(warn=2); install.packages('readxl')"
     R -e "options(warn=2); install.packages('remotes')"
     R -e "options(warn=2); install.packages('quarto')"
+    R -e "options(warn=2); install.packages('here')"
     R -e "options(warn=2); remotes::install_github('perishky/meffonym')"
 
 %environment
