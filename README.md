@@ -53,7 +53,14 @@ mamba install conda-forge::apptainer=1.3.6
 
 ```
 apptainer build rhds-tcga-r.sif rhds-tcga-r.def
-``
+```
+
+> If the build fails on your system and you don't have time to figure out why,
+> it can be downloaded:
+
+```
+wget https://zenodo.org/records/15011337/files/rhds-tcga-r.sif?download=1 -O rhds-tcga-r.sif
+```
 
 ## Running the pipeline commands in containers
 
@@ -66,13 +73,17 @@ source config.env
 mkdir -p ${datadir} ${resultsdir} ${docsdir}
 apptainer run \
     --fakeroot \
+<<<<<<< HEAD
 	-B $(pwd) \
+=======
+    -B $(pwd) \
+>>>>>>> a0644ca8b11e8f265a880fd98d3ed05e2b980fbe
     -B ${datadir} -B ${resultsdir} -B ${docsdir} \
     rhds-tcga-r.sif \
     quarto render scripts/analysis.qmd
 ```
 
-> **Note:** on some system `--fakeroot` may generate an
+> **Note:** on some systems `--fakeroot` may generate an
 > error. The error message would say something like
 > "FATAL:   --fakeroot used without sandbox image or user namespaces".
 > This can be resolved by omitting the `--fakeroot` option.
