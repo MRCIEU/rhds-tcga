@@ -1,8 +1,6 @@
-library(here)
-readRenviron(here("config.env"))
-
-datadir <- Sys.getenv("datadir")
-resultsdir <- Sys.getenv("resultsdir")
+args <- commandArgs(trailingOnly=TRUE)
+datadir <- args[1]
+resultsdir <- args[2]
 
 ## function for extracting tcga tar.gz's to named output
 extract.file <- function(tar.file, extract.file, new.file) {
@@ -12,12 +10,14 @@ extract.file <- function(tar.file, extract.file, new.file) {
       untar(tar.file, list = T),
       value = T
     )
+    
   # extract the tar file
   cat("Extracting", tar.file, "to", new.file, "\n")
-  untar(tar.file)
+  untar(tar.file, exdir=resultsdir, extras="--no-same-owner")
+  x.file = file.path(resultsdir,x.file)
 
   # move the data to named output
-  file.rename(x.file, new.file)
+  file.copy(x.file, new.file)
 
   # remove untared directory
   unlink(dirname(x.file), recursive = TRUE)

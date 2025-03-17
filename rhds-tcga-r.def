@@ -1,0 +1,34 @@
+Bootstrap: docker
+From: rocker/r-ver:4.4.1
+
+%post    
+    # install curl 
+    apt-get update && \
+    apt-get install -y libcurl4-openssl-dev curl
+
+    # install quarto
+    QUARTO_VERSION=1.6.42
+    QUARTO_URL=https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb
+    curl -o quarto-linux-amd64.deb -L ${QUARTO_URL} && \
+        DEBIAN_FRONTEND=noninteractive apt-get install -f -y ./quarto-linux-amd64.deb && \
+        rm quarto-linux-amd64.deb
+
+    # install R packages
+    R -e "options(warn=2); install.packages('data.table')"
+    R -e "options(warn=2); install.packages('ggplot2')"
+    R -e "options(warn=2); install.packages('ggrepel')"
+    R -e "options(warn=2); install.packages('readxl')"
+    R -e "options(warn=2); install.packages('remotes')"
+    R -e "options(warn=2); install.packages('quarto')"
+    R -e "options(warn=2); remotes::install_github('perishky/meffonym')"
+
+%environment
+    export LC_ALL=C
+
+%runscript
+    echo "Arguments received: $*"
+    exec "$@"
+    
+%help
+    Runs R scripts in the rhds-tcga analysis.
+
