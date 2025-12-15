@@ -66,36 +66,4 @@ writeLines(lines, file.path(resultsdir, "protein-clean.txt"))
 
 
 ########################
-## extract the methylation data
-methylation.file <- file.path(resultsdir, "methylation.txt")
-if (!file.exists(methylation.file)) {
-  extract.file(
-    tar.file =
-      file.path(
-        datadir,
-        grep(".*_HNSC\\..*_humanmethylation450_.*_data\\.Level_3\\..*\\.tar\\.gz$",
-          list.files(datadir),
-          value = T
-        )
-      ),
-    extract.file = "data.txt",
-    new.file = methylation.file
-  )
-}
-## clean methylation output:
-awk_command <-
-  paste(
-    "awk -F'\t' '{
-		printf \"%s\t\", $1;
-		for(i = 2; i <= NF; i += 4) {
-			printf \"%s\t\", $i;
-		}
-		print \"\"
-		}'",
-    methylation.file,
-    "| sed 2d  >",
-    file.path(resultsdir, "methylation-clean.txt")
-  )
-
-# Execute the command
-system(awk_command)
+## methylation data is pre-extracted into the 'methylation-clean-score-sites.csv' file
