@@ -44,8 +44,8 @@ cd $workdir
 
 
 # download cleaned dnam data
-url="https://raw.githubusercontent.com/MRCIEU/rhds-admin/refs/heads/main/data/results/methylation-clean-score-sites.csv?token=GHSAT0AAAAAADOYU5BIH67U54RSM4NYDDDI2J73EXA"
-curl -L $url -o $datadir/methylation-clean-score-sites.csv
+url="https://github.com/MRCIEU/rhds-tcga/raw/refs/heads/main/data/methylation-clean-score-sites.csv.gz"
+curl -L $url -o $datadir/methylation-clean-score-sites.csv.gz
 
-url="https://raw.githubusercontent.com/MRCIEU/rhds-admin/refs/heads/main/data/results/methylation-clean-score-sites.csv.md5?token=GHSAT0AAAAAADOYU5BJP726XYMN6H5XQX7Y2J725MQ"
-curl -L $url -o $datadir/methylation-clean-score-sites.csv.md5
+url="https://raw.githubusercontent.com/MRCIEU/rhds-tcga/refs/heads/main/data/methylation-clean-score-sites.csv.gz.md5"
+curl -L $url -o $datadir/methylation-clean-score-sites.csv.gz.md5
