@@ -21,45 +21,31 @@ resultsdir="/PATH/TO/RESULTS/DIR"
 docsdir="/PATH/TO/DOCS/DIR"
 ```
 
-* The data directory is for raw downloaded data that ideally you won't modify.
+* The data directory is for raw downloaded data that ideally you won't modify (e.g. /data/<username>/data).
 
-* The results directory is for intermediate steps and final results.
+* The results directory is for intermediate steps and final results (e.g. /data/<username>/results).
 
-* The docs directory is for reports describing results. 
+* The docs directory is for reports describing results (e.g. /data/<username>/docs). 
 
 *All files in the results and docs directories should be reproducible.*
 
 ## Pipeline installation
 
-### If apptainer is available as a module
+If apptainer needs to be installed
 
-```
-module load apptainer/1.3.6
-```
+* Ensure that [mamba](README-mamba.md) is installed.
 
-### If apptainer needs to be installed
-
-Ensure that [mamba](README-mamba.md) is installed.
-
-Create a mamba environment for the pipeline, 
-then load the environment and install apptainer. 
+* Create a mamba environment for the pipeline, 
+  then load the environment and install apptainer. 
 
 ```
 mamba install conda-forge::apptainer=1.3.6
 ```
 
-
 ## Build the container image
 
 ```
 apptainer build rhds-tcga-r.sif rhds-tcga-r.def
-```
-
-> If the build fails on your system and you don't have time to figure out why,
-> it can be downloaded:
-
-```
-wget https://zenodo.org/records/15011337/files/rhds-tcga-r.sif?download=1 -O rhds-tcga-r.sif
 ```
 
 ## Running the pipeline commands in containers
