@@ -1,8 +1,6 @@
 library(here)
-readRenviron(here("config.env"))
-
-datadir <- Sys.getenv("datadir")
-resultsdir <- Sys.getenv("resultsdir")
+args <- commandArgs(trailingOnly = T)
+resultsdir <- args[1]
 
 source(here("scripts/my-write-table-function.r"))
 ## get helper functions for parsing tcga ids

@@ -1,9 +1,9 @@
 library(meffonym)
 library(here)
-readRenviron(here("config.env"))
 
-datadir <- Sys.getenv("datadir")
-resultsdir <- Sys.getenv("resultsdir")
+args <- commandArgs(trailingOnly = T)
+datadir <- args[1]
+resultsdir <- args[2]
 
 source(here("scripts/my-write-table-function.r"))
 

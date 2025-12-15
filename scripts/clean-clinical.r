@@ -1,8 +1,5 @@
-library(here)
-readRenviron(here("config.env"))
-
-datadir <- Sys.getenv("datadir")
-resultsdir <- Sys.getenv("resultsdir")
+args <- commandArgs(trailingOnly = T)
+resultsdir <- args[1]
 
 clinical.filename <- file.path(resultsdir, "clinical.txt")
 pan.cancer.filename <- file.path(
