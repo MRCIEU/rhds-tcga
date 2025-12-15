@@ -5,7 +5,7 @@ library(meffonym)
 
 source("scripts/my-write-table-function.r")
 
-methylation.file <- file.path(resultsdir, "methylation-clean-score-sites.csv")
+methylation.file <- file.path(resultsdir, "methylation-clean-score-sites.csv.gz")
 
 ## read dnam file
 data <- as.data.frame(data.table::fread(methylation.file))
