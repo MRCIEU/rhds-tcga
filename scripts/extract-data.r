@@ -1,6 +1,8 @@
-args <- commandArgs(trailingOnly=TRUE)
-datadir <- args[1]
-resultsdir <- args[2]
+library(here)
+
+readRenviron(here("config.env"))
+datadir <- Sys.getenv("datadir")
+resultsdir <- Sys.getenv("resultsdir")
 
 ## function for extracting tcga tar.gz's to named output
 extract.file <- function(tar.file, extract.file, new.file) {
