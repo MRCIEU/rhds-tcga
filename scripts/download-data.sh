@@ -42,3 +42,10 @@ cd $datadir
 # Navigate back to the original directory
 cd $workdir
 
+
+# download cleaned dnam data
+url="https://raw.githubusercontent.com/MRCIEU/rhds-admin/refs/heads/main/data/results/methylation-clean-score-sites.csv?token=GHSAT0AAAAAADOYU5BIH67U54RSM4NYDDDI2J73EXA"
+curl -L $url -o $datadir/methylation-clean-score-sites.csv
+
+url="https://raw.githubusercontent.com/MRCIEU/rhds-admin/refs/heads/main/data/results/methylation-clean-score-sites.csv.md5?token=GHSAT0AAAAAADOYU5BJP726XYMN6H5XQX7Y2J725MQ"
+curl -L $url -o $datadir/methylation-clean-score-sites.csv.md5
