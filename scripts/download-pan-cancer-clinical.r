@@ -1,8 +1,9 @@
-args <- commandArgs(trailingOnly=TRUE)
-datadir <- args[1]
-resultsdir <- args[2]
-
 library(readxl)
+library(here)
+
+readRenviron(here("config.env"))
+datadir <- Sys.getenv("datadir")
+resultsdir <- Sys.getenv("resultsdir")
 
 stopifnot(dir.exists(datadir))
 

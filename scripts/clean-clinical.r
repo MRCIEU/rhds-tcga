@@ -1,15 +1,9 @@
----
+library(here)
+readRenviron(here("config.env"))
 
-title: Clean clinical data
-params:
-  resultsdir: ""
----
+datadir <- Sys.getenv("datadir")
+resultsdir <- Sys.getenv("resultsdir")
 
-To do..
-
-
-```{r}
-resultsdir <- params$resultsdir
 clinical.filename <- file.path(resultsdir, "clinical.txt")
 pan.cancer.filename <- file.path(
   resultsdir,
@@ -88,4 +82,3 @@ clinical$dfi <- clinical.pan$DFI
 clinical$dfi.time <- clinical.pan$DFI.time
 
 write.table(clinical, file = output.filename, row.names = F, col.names = T, sep = "\t")
-```

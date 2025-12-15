@@ -4,3 +4,6 @@
 
 # Config
 config.env
+
+/.quarto/
+**/*.quarto_ipynb

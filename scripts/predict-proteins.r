@@ -1,11 +1,13 @@
-args <- commandArgs(trailingOnly=TRUE)
-resultsdir <- args[1]
-
 library(meffonym)
+library(here)
+readRenviron(here("config.env"))
 
-source("scripts/my-write-table-function.r")
+datadir <- Sys.getenv("datadir")
+resultsdir <- Sys.getenv("resultsdir")
 
-methylation.file <- file.path(resultsdir, "methylation-clean-score-sites.csv.gz")
+source(here("scripts/my-write-table-function.r"))
+
+methylation.file <- file.path(datadir, "methylation-clean-score-sites.csv.gz")
 
 ## read dnam file
 data <- as.data.frame(data.table::fread(methylation.file))

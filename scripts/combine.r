@@ -1,9 +1,12 @@
-args <- commandArgs(trailingOnly=TRUE)
-resultsdir <- args[1]
+library(here)
+readRenviron(here("config.env"))
 
-source("scripts/my-write-table-function.r")
+datadir <- Sys.getenv("datadir")
+resultsdir <- Sys.getenv("resultsdir")
+
+source(here("scripts/my-write-table-function.r"))
 ## get helper functions for parsing tcga ids
-source("scripts/extract-participant.r")
+source(here("scripts/extract-participant.r"))
 
 pred.protein.filename <- file.path(resultsdir, "predicted-proteins.txt")
 clinical.filename <- file.path(resultsdir, "clinical-clean.txt")
