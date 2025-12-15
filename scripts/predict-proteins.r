@@ -4,19 +4,13 @@ resultsdir <- args[1]
 library(meffonym)
 
 source("scripts/my-write-table-function.r")
-source("scripts/my-read-table-function.r")
 
-methylation.file <- file.path(resultsdir, "methylation-clean.txt")
+methylation.file <- file.path(resultsdir, "methylation-clean-score-sites.csv")
 
-## Start to Process Files
-data <- my.read.table(methylation.file)
-index <- grep("Hybrid", colnames(data))
-rownames(data) <- data[, index[1]]
-data <- as.matrix(data[, -index])
-
-## drop rows that are completely missing
-index.na.row <- apply(data, 1, function(i) !all(is.na(i)))
-data <- data[index.na.row, ]
+## read dnam file
+data <- as.data.frame(data.table::fread(methylation.file))
+rownames(data) <- data[,1]
+data <- as.matrix(data[,-1])
 
 ## check number of rows missing per sample
 # miss <- apply(data, 2, function(i) table(is.na(i)), simplify=F)
