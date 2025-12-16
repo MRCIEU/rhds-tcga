@@ -12,4 +12,3 @@ Rscript clean-clinical.r $resultsdir
 Rscript predict-proteins.r $datadir $resultsdir
 Rscript combine.r $resultsdir
 quarto render analysis.qmd -P resultsdir:$resultsdir --output-dir ../docs
-
