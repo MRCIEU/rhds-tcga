@@ -4,8 +4,7 @@ rule extract_data:
         f"{resultsdir}/md5sums.txt"
     output:
         f"{resultsdir}/clinical.txt",
-        f"{resultsdir}/protein-clean.txt",
-        f"{resultsdir}/methylation-clean.txt"
+        f"{resultsdir}/protein-clean.txt"
     container:
         "rhds-tcga-r.sif"
     log:

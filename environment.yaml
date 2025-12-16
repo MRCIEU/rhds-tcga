@@ -1,0 +1,6 @@
+name: rhds
+channels:
+  - conda-forge
+dependencies:
+  - snakemake=9.14.4
+  - python-dotenv=1.2.1

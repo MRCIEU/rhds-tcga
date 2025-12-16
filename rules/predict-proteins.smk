@@ -1,7 +1,7 @@
 rule predict_proteins:
     "Predict proteins from methylation data"
     input:
-        f"{resultsdir}/methylation-clean.txt"
+        f"{datadir}/methylation-clean-score-sites.csv.gz"
     output:
         f"{resultsdir}/predicted-proteins.txt"
     container:
@@ -10,5 +10,5 @@ rule predict_proteins:
         f"{resultsdir}/logs/predict-proteins.log"
     shell:
         """
-        Rscript scripts/predict-proteins.r {resultsdir}
+        Rscript scripts/predict-proteins.r {datadir} {resultsdir}
         """

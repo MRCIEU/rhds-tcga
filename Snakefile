@@ -13,7 +13,6 @@ onstart:
 rule all:
     input:
         f"{resultsdir}/md5sums.txt",
-        f"{docsdir}/clean-clinical.html",
         f"{docsdir}/analysis.html"
 
 include: "rules/download-data.smk"
@@ -28,6 +27,5 @@ rule clean:
     "Clean up output directories"
     shell:
         """
-        rm {resultsdir}/*
-        rm {docsdir}/*
+        rm -r {resultsdir}/*
         """
