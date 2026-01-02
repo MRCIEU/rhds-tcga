@@ -1,6 +1,7 @@
 name: rhds
 channels:
   - conda-forge
+  - bioconda
 dependencies:
-  - snakemake=9.14.4
+  - snakemake=9.14.3
   - python-dotenv=1.2.1
